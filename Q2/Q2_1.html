@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q2_1</title>
+    <link href="post_style.css" rel="stylesheet" type="text/css" />
+    <style>
+        textarea{
+            overflow-y: scroll;
+        }
+    </style>
+</head>
+<body>
+    <form>
+        <table>
+            <tr>
+                <td class="c_title">公告對象:</td>
+                <td class="c_content">
+                    <input type="checkbox" name="who" value="1">教職員
+                    <input type="checkbox" name="who" value="2">學生
+                    <input type="checkbox" name="who" value="3">學校首頁
+                </td>
+            </tr>
+            <tr>
+                <td class="c_title">公告類型:</td>
+                <td class="c_content">
+                    <input type="radio" name="what" value="1">演講
+                    <input type="radio" name="what" value="2">研討會
+                    <input type="radio" name="what" value="3">徵才
+                    <input type="radio" name="what" value="4">招生、進修教育訓練
+                    <input type="radio" name="what" value="5">其他
+                </td>
+            </tr>
+            <tr>
+                <td class="c_title">
+                    主旨:
+                </td>
+                <td class="c_content">
+                    <input type="text" name="Subject">
+                </td>
+            </tr>
+            <tr>
+                <td class="c_title">
+                    截止日期:
+                </td>
+                <td class="c_content">
+                    <input id="date" type="date" name="date">
+                </td>
+            </tr>
+            <tr>
+                <td class="c_title">
+                    連結網址:
+                </td>
+                <td class="c_content">
+                    <input type="text" name="addr">
+                </td>
+            </tr>
+            <tr>
+                <td class="c_title">
+                    公告內容:
+                </td>
+                <td class="c_content">
+                    <textarea name="content" rows="10" cols="40"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align:center" >
+                    <input type="submit" value="確定送出" class="c_button">
+                    <input type="reset"  value="重新填寫" class="c_button">
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
