@@ -1,85 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Q2_2</title>
     <style>
-        textarea{
+        textarea {
             overflow-y: scroll;
         }
-        td{
-            border:1px solid #000; 
+
+        td {
+            border: 1px solid #000;
         }
     </style>
 </head>
+
 <body>
     <form>
         <table>
+            <caption>
+                會員基本資料填寫
+            </caption>
             <tr>
-                <td >姓名:</td>
-                <td >
+                <td>姓名:</td>
+                <td>
                     <input type="text" name="name">
                 </td>
             </tr>
             <tr>
-                <td >
+                <td>
                     生日:
                 </td>
-                <td >
+                <td>
                     <input id="date" type="date" name="date">
                 </td>
             </tr>
             <tr>
-                <td >性別:</td>
-                <td >
+                <td>性別:</td>
+                <td>
                     <input type="radio" name="what" value="1">男
                     <input type="radio" name="what" value="2">女
-                    
+
                 </td>
             </tr>
             <tr>
-                <td >興趣:</td>
-                <td >
+                <td>興趣:</td>
+                <td>
                     <input type="checkbox" name="hobby" value="1">游泳
                     <input type="checkbox" name="hobby" value="2">慢跑
                     <input type="checkbox" name="hobby" value="3">打網球
                     <input type="checkbox" name="hobby" value="4">打籃球
                     <input type="checkbox" name="hobby" value="5">爬山
                 </td>
-            </tr>            
+            </tr>
             <tr>
-                <td >
+                <td>
                     email:
                 </td>
-                <td >
+                <td>
                     <input type="text" name="email">
                 </td>
             </tr>
             <tr>
-                <td >
+                <td>
                     照片上傳:
                 </td>
-                <td >
+                <td>
                     <input type="file">
                 </td>
             </tr>
             <tr>
-                <td >
+                <td>
                     自我介紹:
                 </td>
-                <td >
+                <td>
                     <textarea name="content" rows="10" cols="40"></textarea>
                 </td>
             </tr>
             <tr>
-                <td colspan="2" style="text-align:center" >
+                <td colspan="2" style="text-align:center">
                     <input type="submit" value="確定送出" class="c_button">
-                    
+
                 </td>
             </tr>
         </table>
     </form>
 </body>
+
 </html>
