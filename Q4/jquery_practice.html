@@ -43,7 +43,12 @@
                 // var ss =  $('#doc_username:selected').text();
                 $("#doc_username_s").text($("#doc_username").find("option:selected").text());
                 $("#doc_type_s").text($("input[name='doc_type']:checked").parent().text());
-                $("#doc_to_s").text($("input[name='doc_to[]']:checked").parent().text());
+
+                $("#doc_to_s").text("");                
+                $("input[name='doc_to[]']:checked").each(function(){
+                    $("#doc_to_s").append($(this).parent().text()+" ");                    
+                });
+
                 if ($("input[name='doc_to[]']:checked").val() != 1) {
                     $(".schoolttt").hide();
                 }else{
@@ -131,13 +136,13 @@
                             <td class="col-md-2 td1 text-center">公告對象</td>
                             <td class="col-md-10" colspan="3">
                                 <span><input type="checkbox" name="doc_to[]" value="1" class="checkbox-inline">
-                                    本校教職員&nbsp
+                                    本校教職員
                                 </span>
                                 <span><input type="checkbox" name="doc_to[]" value="2" class="checkbox-inline">
-                                    學校首頁&nbsp
+                                    學校首頁
                                 </span>
                                 <span><input type="checkbox" name="doc_to[]" value="6" class="checkbox-inline">
-                                    學生專區&nbsp
+                                    學生專區
                                 </span>
                             </td>
                         </tr>
