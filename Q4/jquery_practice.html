@@ -13,7 +13,7 @@
     <script>
         $(function () {
             $("#btn_css").click(function () {
-                //alert($("body").css("font-size"));
+
                 if ($("body").css("font-size") == "18px")
                     $("body").css("font-size", "14px");
                 else if ($("body").css("font-size") == "14px")
@@ -40,7 +40,7 @@
             $("#btn_show").click(function () {
                 $("#table2").toggle();
                 $("#doc_from_s").text('資訊工程學系');
-                // var ss =  $('#doc_username:selected').text();
+
                 $("#doc_username_s").text($("#doc_username").find("option:selected").text());
                 $("#doc_type_s").text($("input[name='doc_type']:checked").parent().text());
 
