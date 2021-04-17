@@ -1,0 +1,295 @@
+* {
+	margin:0;
+	padding:0;
+}
+html,body  {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	background:#FFFFFF;
+	color:#010101;
+	height: 100%;
+  	width: 100%;
+
+}
+img {
+	border:0;
+}
+a {
+	color:#4393de;
+	font-size:12px;
+	text-decoration:underline;
+}
+a:hover {
+	color:#4393de;
+	font-size:12px;
+	text-decoration:none;
+}
+h1 {
+	font-family:tahoma, arial;
+	font-size:24px;
+	font-weight:bold;
+	color:#4393de;
+	padding:10px 0 20px 0;
+}
+h2 {
+	font-family:tahoma, arial;
+	color:#ffffff;
+	font-size:30px;
+	padding:10px;
+}
+.logo {
+	float:left;
+	padding:20px 20px 20px 0;
+}
+.slogan {
+	color:#747474;
+	font-size:11px;
+	padding:27px 0 0 0;
+}
+.buttonStyle {
+	border:0;
+	cursor:pointer;
+	font-size:14px;
+	font-weight:bold;
+	color:#ffffff;
+	background:#413503;
+	padding:2px 7px;
+}
+#container { 
+	width: 80%;  
+	margin: 0 auto;
+}
+.headerTop {
+	background:#2c2c2c;
+}
+.headerPic {
+	float:left;
+	padding:0 30px 0 0;
+}
+.headerSlogan {
+	font-size:36px;
+	color:#f2c411;
+	padding:70px 0 0 0;
+}
+
+.menu {
+	float:left;
+}
+.menu ul {
+	padding:10px 0;
+	margin:0;
+}
+.menu li {
+	list-style:none;
+	display:inline;
+	padding:0;
+}
+.menu a {
+	color:#ffffff;
+	font-size:12px;
+	text-decoration:none;
+	padding:10px 20px;
+} 
+.menu a:hover {
+	color:#ffffff;
+	font-size:12px;
+	background:#4393de;
+	text-decoration:none;
+}
+.menu #active a {
+	color:#ffffff;
+	font-size:12px;
+	background:#4393de;
+	text-decoration:none;
+} 
+.icons {
+	float:right;
+	background:#FFFFFF;
+	margin:4px 3px 0px 3px;
+}
+.icons li {
+	list-style:none;
+	display:inline;
+}
+#bb{
+	display:inline-flex;
+	width: 100%;
+}
+#sidebar1 {
+	background:#c9c9c9;
+	float: left;
+	width: 20%;
+}
+#sidebar1 ul {
+	padding: 0 10px 10px 10px;
+}
+#sidebar1 li {
+	list-style:none;
+	font-size:12px;
+	color:#dad6d1;
+	background:url(images/p.png) no-repeat left 5px;
+	padding:5px 0 5px 20px;
+}
+#sidebar1 li a {
+	font-size:14px;
+	color:#0f0c13;
+	text-decoration:none;
+}
+#sidebar1 li a:hover {
+	font-size:14px;
+	color:#0f0c13;
+	text-decoration:underline;
+}
+#mainContent { 
+	/* margin: 0 0 0 314px; */
+	display: flex; 
+	/* display:inline-flex; */
+	justify-content: center;/* center / flex-start / flex-end */
+	align-items: stretch;/* center / stretch / flex-start / flex-end*/
+	flex-wrap: wrap;
+	width: 80%;
+}
+.picRight {
+	float:right;
+	padding:0 0 15px 20px;
+}
+#mainContent p {
+	padding:10px 0 30px 0;
+	
+}
+.box {	
+	width:160px;
+	padding:0px 0px 5px 0px;
+	margin:0 3px 15px 3px;
+	border-bottom:1px solid #acacac;
+}
+.boxTitle {
+	color:#515151;
+	padding:5px 0;
+} 
+.boxPrice {
+	color:#46890b;
+	padding:0 0 5px 0;
+	font-weight:bold;
+}
+.boxLink a {
+	font-size:12px;
+	font-weight:bold;
+	color:#3d81c7;
+	text-decoration:none;
+}
+.boxLink a:hover {
+	font-size:12px;
+	font-weight:bold;
+	color:#3d81c7;
+	text-decoration:underline;
+}
+.detailbox{
+	align-self:center;
+	margin: 0 auto;
+	border: #f2c200 3px solid;
+}
+.detailTitle{
+	text-align: center;
+	font-size:20px;
+}
+.detailcontent{
+	text-align: center;
+	font-size:12px;
+	font-weight:bold;
+}
+.detailpic{
+	margin:0 auto;
+	width: fit-content;
+	width: -moz-min-content;
+}
+#footer {
+	background:#2c2c2c;
+	color:#9e9e9e;
+	padding:17px 0;
+	margin:20px 0 0 0;
+	font-size:11px;
+}
+#footer p {
+	text-align:center;
+} 
+#footer a {
+	color:#f2c200;
+	text-decoration:underline;
+	font-size:11px;
+}
+#footer a:hover {
+	color:#f2c200;
+	text-decoration:none;
+	font-size:11px;
+}
+.clearfloat { /* this class should be placed on a div or break element and should be the final element before the close of a container that should fully contain a float */
+	clear:both;
+    height:0;
+    font-size: 1px;
+    line-height: 0px;
+}
+#login{
+	display:flex;
+    align-items:center;
+    justify-content:center;
+	background :#b5ddde;
+	height: 100%;
+	width: 100%;
+}
+#login form{
+	display:flex;
+    align-items:center;
+    justify-content:center;
+	background :#b5ddde;
+
+}
+#register{
+	display:flex;
+    align-items:center;
+    justify-content:center;
+	background :#b5ddde;
+	height: 100%;
+	width: 100%;
+}
+#register form{
+	display:flex;
+    align-items:center;
+    justify-content:center;
+	background :#b5ddde;
+
+}
+
+@media screen and (max-width: 1200px) {
+	.box{
+		width: 160px;
+	}
+}
+@media screen and (max-width: 768px) {
+	.box{
+		width: 200px;
+	}
+	.headerPic{
+		display: none;
+	}
+	#bb{
+		flex-wrap: wrap;
+	}
+	#sidebar1{
+		width: 100%;
+	}
+}
+@media screen and (max-width: 500px) {
+	.box{
+		width: 250px;
+	}
+	.headerPic{
+		display: none;
+	}
+	#bb{
+		flex-wrap: wrap;
+	}
+	#sidebar1{
+		width: 100%;
+	}
+}
