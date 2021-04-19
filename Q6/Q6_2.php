@@ -21,114 +21,116 @@
             border: 1px solid #000;
         }
     </style>
-    <!-- <script>
-        $.validator.setDefaults({
-            submitHandler: function () {
-                alert("提交!");
-            }
-        });
+    <script>
+        // $.validator.setDefaults({
+        //     submitHandler: function () {
+        //         alert("提交!");
+        //     }
+        // });
         $().ready(
-            function () {                
-                $("form").validate({                    
-                    rules:{
-                        name:{
+            function () {
+                $("form").validate({
+                    rules: {
+                        name: {
                             required: true
                         },
-                        date:{
-                            required:true
+                        date: {
+                            required: true
                         },
-                        what:{
-                            required:true
+                        what: {
+                            required: true
                         },
-                        email:{
-                            required:true,
+                        email: {
+                            required: true,
                             email: true
                         },
-                        "hobby[]":{
+                        "hobby[]": {
                             minlength: 2
                         }
                     }
 
                 })
 
-                
+
             }
         );
-    </script> -->
+    </script>
 </head>
 
 <body>
-    <form name="f1" action="" method="POST">
-        <table>
-            <caption>
-                會員基本資料填寫
-            </caption>
-            <tr>
-                <td>姓名:</td>
-                <td>
-                    <input type="text" name="name">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    生日:
-                </td>
-                <td>
-                    <input id="date" type="date" name="date">
-                </td>
-            </tr>
-            <tr>
-                <td>性別:</td>
-                <td>
-                    <input type="radio" name="what" value="1">男
-                    <input type="radio" name="what" value="2">女
-
-                </td>
-            </tr>
-            <tr>
-                <td>興趣:</td>
-                <td>
-                    <input type="checkbox" name="hobby[]" value="1">游泳
-                    <input type="checkbox" name="hobby[]" value="2">慢跑
-                    <input type="checkbox" name="hobby[]" value="3">打網球
-                    <input type="checkbox" name="hobby[]" value="4">打籃球
-                    <input type="checkbox" name="hobby[]" value="5">爬山
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    email:
-                </td>
-                <td>
-                    <input type="text" name="email">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    照片上傳:
-                </td>
-                <td>
-                    <input type="file">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    自我介紹:
-                </td>
-                <td>
-                    <textarea name="content" rows="10" cols="40"></textarea>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2" style="text-align:center">
-                    <input type="submit" value="確定送出" class="c_button">
-
-                </td>
-            </tr>
-        </table>
-    </form>
-    <?php if(isset($_POST["user"])) echo '"display:nne";' ?>
     <div>
+        <form name="f1" action="" method="POST" >
+            <table>
+                <caption>
+                    會員基本資料填寫
+                </caption>
+                <tr>
+                    <td>姓名:</td>
+                    <td>
+                        <input type="text" name="name" value = <?php if(!empty($_POST['name'])){echo $_POST['name'];} ?> >
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        生日:
+                    </td>
+                    <td>
+                        <input id="date" type="date" name="date" value = <?php if(isset($_POST['date'])){echo  $_POST['date'];}?>>
+                    </td>
+                </tr>
+                <tr>
+                    <td>性別:</td>
+                    <td>
+                        <input type="radio" name="what" value="1" <?php if(isset($_POST['what'])){if($_POST['what'] == 1){echo "checked";}}?> >男
+                        <input type="radio" name="what" value="2" <?php if(isset($_POST['what'])){if($_POST['what'] == 2){echo "checked";}}?> >女
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>興趣:</td>
+                    <td>
+                        <input type="checkbox" name="hobby[]" value="1" <?php if(!empty($_POST['hobby'])){if(in_array("1",$_POST['hobby'])){ echo "checked";}} ?> >游泳
+                        <input type="checkbox" name="hobby[]" value="2" <?php if(!empty($_POST['hobby'])){if(in_array("2",$_POST['hobby'])){ echo "checked";}} ?> >慢跑
+                        <input type="checkbox" name="hobby[]" value="3" <?php if(!empty($_POST['hobby'])){if(in_array("3",$_POST['hobby'])){ echo "checked";}} ?> >打網球
+                        <input type="checkbox" name="hobby[]" value="4" <?php if(!empty($_POST['hobby'])){if(in_array("4",$_POST['hobby'])){ echo "checked";}} ?> >打籃球
+                        <input type="checkbox" name="hobby[]" value="5" <?php if(!empty($_POST['hobby'])){if(in_array("5",$_POST['hobby'])){ echo "checked";}} ?> >爬山
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        email:
+                    </td>
+                    <td>
+                        <input type="text" name="email" value = <?php if(!empty($_POST['email'])){echo $_POST['email'];} ?> >
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        照片上傳:
+                    </td>
+                    <td>
+                        <input type="file">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        自我介紹:
+                    </td>
+                    <td>
+                        <textarea name="content" rows="10" cols="40"><?php if(!empty($_POST['email'])){echo $_POST['email'];} ?></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align:center">
+                        <input type="submit" value="確定送出" class="c_button">
+
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    
+    <div <?php if(empty($_POST['name'])){ echo "style = 'display:none';";}?> >
         <table>
             <caption>
                 會員基本資料填寫
@@ -136,7 +138,7 @@
             <tr>
                 <td>姓名:</td>
                 <td>
-                    <input type="text" name="name">
+                    <?php echo $_POST['name'] ?>
                 </td>
             </tr>
             <tr>
@@ -144,25 +146,52 @@
                     生日:
                 </td>
                 <td>
-                    <input id="date" type="date" name="date">
+                    <?php 
+                        $date = strtotime($_POST['date']);
+                        $newDate = date('Y年m月d日',$date);
+                        echo $newDate;
+                    ?>
                 </td>
             </tr>
             <tr>
                 <td>性別:</td>
                 <td>
-                    <input type="radio" name="what" value="1">男
-                    <input type="radio" name="what" value="2">女
-
+                    <?php if($_POST['what'] == 1){echo "男"; }?>
+                    <?php if($_POST['what'] == 2){echo "女"; }?>
                 </td>
             </tr>
             <tr>
                 <td>興趣:</td>
                 <td>
-                    <input type="checkbox" name="hobby[]" value="1">游泳
-                    <input type="checkbox" name="hobby[]" value="2">慢跑
-                    <input type="checkbox" name="hobby[]" value="3">打網球
-                    <input type="checkbox" name="hobby[]" value="4">打籃球
-                    <input type="checkbox" name="hobby[]" value="5">爬山
+                    <?php
+                        // echo implode(",",$_POST['hobby']);
+                        foreach( $_POST['hobby'] as $i){
+                            switch($i){
+                                case 1:
+                                    echo "游泳 ";
+                                    break;
+                                case 2:
+                                    echo "慢跑 ";
+                                    break;
+                                case 3:
+                                    echo "打網球 ";
+                                    break;
+                                case 4:
+                                    echo "打籃球 ";
+                                    break;
+                                case 5:
+                                    echo "爬山 ";
+                                    break;
+
+                            }
+                        }
+                    ?>
+                    
+                    <!-- <input type="checkbox" name="hobby[]" value="游泳">游泳
+                    <input type="checkbox" name="hobby[]" value="慢跑">慢跑
+                    <input type="checkbox" name="hobby[]" value="打網球">打網球
+                    <input type="checkbox" name="hobby[]" value="打籃球">打籃球
+                    <input type="checkbox" name="hobby[]" value="爬山">爬山 -->
                 </td>
             </tr>
             <tr>
@@ -170,15 +199,7 @@
                     email:
                 </td>
                 <td>
-                    <input type="text" name="email">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    照片上傳:
-                </td>
-                <td>
-                    <input type="file">
+                    <?php echo $_POST['email'] ?>
                 </td>
             </tr>
             <tr>
@@ -186,15 +207,11 @@
                     自我介紹:
                 </td>
                 <td>
-                    <textarea name="content" rows="10" cols="40"></textarea>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2" style="text-align:center">
-                    <input type="submit" value="確定送出" class="c_button">
 
+                    <?php echo $_POST['content'] ?>
                 </td>
             </tr>
+
         </table>
     </div>
 </body>
