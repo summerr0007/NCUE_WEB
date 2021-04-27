@@ -47,6 +47,9 @@
                         "hobby[]": {
                             minlength: 2
                         }
+                    },
+                    messages: {
+
                     }
 
                 })

@@ -5,6 +5,6 @@
 		$uri = 'http://';
 	}
 	$uri .= $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-	header('Location: '.$uri.'/192/');
+	header('Location: '.$uri.'mid/S0854010.php');
 	exit;
 ?>
