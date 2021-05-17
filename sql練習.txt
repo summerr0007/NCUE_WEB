@@ -1,0 +1,5 @@
+select * from students where stud_name like '%美%'
+select stud_no,stud_name,stud_addr from students where stud_addr = '台中市' or stud_addr = '台中縣' or stud_addr = '彰化縣' order by stud_no DESC 
+select stud_addr,count(*) from students GROUP BY stud_addr having count(*) >1;
+select * from students where stud_no not in (select distinct stud_no from study) 
+select c_name,credit from students,study,course where students.stud_no=study.stud_no and course.c_no=study.serial_no and stud_name='張文傑'
