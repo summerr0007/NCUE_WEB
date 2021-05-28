@@ -1,0 +1,52 @@
+{
+    "0":{
+        "name":"Slacker",
+        "src":"images/pic1.jpg",
+        "num":0
+    },
+    "1":{
+        "name":"Kids in America",
+        "src": "images/pic2.jpg",
+        "num":1
+    },
+    "2":{
+        "name":"Tum Milo Toh Sahi",
+        "src": "images/pic3.jpg",
+        "num":2
+    },
+    "3":{
+        "name":"American Zombie",
+        "src": "images/pic4.jpg",
+        "num":3
+    },
+    "4":{
+        "name":"Dil Toh Bachha Hai J",
+        "src": "images/pic5.jpg",
+        "num":4
+    },
+    "5":{
+        "name":"Arya 2",
+        "src": "images/pic6.jpg",
+        "num":5
+    },
+    "6":{
+        "name":"Awara Paagal Deewana",
+        "src": "images/pic7.jpg",
+        "num":6
+    },
+    "7":{
+        "name":"Her Fatal Flaw",
+        "src": "images/pic8.jpg",
+        "num":7
+    },
+    "8":{
+        "name":"Kingsman: The Secret Service",
+        "src": "images/pic9.jpg",
+        "num":8
+    },
+    "9":{
+        "name":"Battle of Britain",
+        "src": "images/pic10.jpg",
+        "num":9
+    }  
+}

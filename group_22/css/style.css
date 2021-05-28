@@ -1,0 +1,42 @@
+.card {
+    filter: drop-shadow(6px 6px 3px rgba(28, 31, 235, 0.2));
+    background: hsla(0,0%,100%,.3);  
+    position: relative;
+    overflow: hidden;
+}
+a{
+    color:#ff6d00;
+}
+.carousel .carousel-item {
+    height: 210px;
+  }
+  
+  .carousel .carousel-item img {
+    min-height: 210px;
+    max-height: 250px;
+    object-fit: cover;
+  }
+.object-fit { width: 100%; }
+.object-fit_fill { object-fit: fill }
+.object-fit_contain { object-fit: contain }
+.object-fit_cover { object-fit: cover }
+.object-fit_none { object-fit: none }
+.object-fit_scale-down { object-fit: scale-down }
+
+img { 
+  height: 270px; 
+  /* background-color: white;   */
+  background: hsla(0,0%,100%,.3);
+}
+
+.image {
+float: left;
+width: 40%;
+margin: 0 20px 0px 0;
+}
+body 
+{
+    padding-top: 56px;
+    font-family: "微軟正黑體";
+    background-image: linear-gradient(to bottom right, white 40%, #dfe9f3 100%);
+}

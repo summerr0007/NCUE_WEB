@@ -51,33 +51,34 @@
 
                         }
                     ,
-                    rules: {
-                        know: {
-                            required: true
-                        },
-                        type: {
-                            required: true
-                        },
-                        "hobby[]": {
-                            required: true,
-                            minlength: 1,
-                            maxlength: 3
+                        rules: {
+                            know: {
+                                required: true
+                            },
+                            type: {
+                                required: true
+                            },
+                            "hobby[]": {
+                                required: true,
+                                minlength: 1,
+                                maxlength: 3
+                            }
                         }
-                    },
-                    messages: {
-                        know: {
-                            required: "(此題為必填!!)"
-                        },
-                        type: {
-                            required: "(此題為必填!!)"
-                        },
-                        "hobby[]": {
-                            required: "(請選擇 1個 至 3個 選項)",
-                            minlength: "",
-                            maxlength: "(請選擇 1個 至 3個 選項)"
+                    ,
+                        messages: {
+                            know: {
+                                required: "(此題為必填!!)"
+                            },
+                            type: {
+                                required: "(此題為必填!!)"
+                            },
+                            "hobby[]": {
+                                required: "(請選擇 1個 至 3個 選項)",
+                                minlength: "",
+                                maxlength: "(請選擇 1個 至 3個 選項)"
+                            }
                         }
                     }
-                }
                 );
             }
         );
