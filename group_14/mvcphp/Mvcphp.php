@@ -1,6 +1,10 @@
 <?php
 namespace mvcphp;
 defined('CORE_PATH') or define('CORE_PATH', __DIR__);
+session_start();
+$thisurl = "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+$thisurl = substr($thisurl,0,strpos($thisurl,"group_14")+9);
+define('THISURL', $thisurl);
 class Mvcphp{
     protected $config=[];
 

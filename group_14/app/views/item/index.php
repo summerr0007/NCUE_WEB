@@ -4,7 +4,7 @@
             <nav>
                 <ui>
                     <?php foreach($items as $item):?>
-                        <li><?php echo $item['name'];?></li>
+                        <li><a href="<?php echo THISURL."item/detail/".$item['id'];?>"><?php echo $item['name'];?></a></li>
                     <?php endforeach ?>
                 </ui>
             </nav>
@@ -16,7 +16,7 @@
                         <img class= "rounded mx-auto d-block" src='<?php echo $thisurl.'static/'.$item['src'];?>'>
                         <p class ="text-center" ><?php echo $item['name'];?><br></p>
                         <p class ="text-center" >$22.44<p>
-                        <p class ="text-center" ><a href="item/detail/<?php echo $item['id'] ?>".>detail</a></p>
+                        <p class ="text-center" ><a href="<?php echo $thisurl;?>item/detail/<?php echo $item['id'] ?>".>detail</a></p>
                     </div>
                 <?php endforeach ?>
             </div>

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,15 +14,15 @@
             <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">商品</a>
+                        <a class="nav-link" href="<?php echo THISURL?>">商品</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">購物車</a>
+                        <a class="nav-link" href="javascript:alert('施工中')">購物車</a>
                     </li>
                 </ul>
             </div>
             <div class="mx-auto order-0">
-                <a class="navbar-brand mx-auto" href="<?php echo $thisurl?>">CD-DVD</a>
+                <a class="navbar-brand mx-auto" href="<?php echo THISURL?>">CD-DVD</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -30,13 +31,16 @@
             <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">會員</a>
+                        <a class="nav-link" href="#"><?php if(!empty($_SESSION['login'])){echo "歡迎  ".$_SESSION['login'];}?></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">登入</a>
+                        <a class="nav-link" href="<?php echo THISURL."account/login"?>"><?php if(empty($_SESSION['login'])){echo "登入";}?></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">註冊</a>
+                        <a class="nav-link" href="<?php echo THISURL."account/register"?>"><?php if(empty($_SESSION['login'])){echo "註冊";}?></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?php echo THISURL."account/logout"?>"><?php if(!empty($_SESSION['login'])){echo "登出";}?></a>
                     </li>
                 </ul>
             </div>

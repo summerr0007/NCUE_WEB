@@ -4,5 +4,7 @@
     define('FCPATH', dirname(__FILE__) . DIRECTORY_SEPARATOR);
     require(APP_PATH . 'mvcphp/Mvcphp.php');
     $config = require(APP_PATH . 'config/config.php');
+    
+     
     (new mvcphp\Mvcphp($config))->run();
 
