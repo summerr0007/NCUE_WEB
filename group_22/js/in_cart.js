@@ -33,7 +33,34 @@ function is_add(item_id, item_num, w_log, add_type) {
 			showConfirmButton: false,
 			timer: 800
 		}).then(() => {
-			window.location.href = "shop_cart.php?add_id=" + item_id + "&add_num=" + item_num + "&add_type=" + add_type;
+			$.ajax({
+				url: "shop_cart_ajax.php?add_id=" + item_id + "&add_num=" + item_num + "&add_type=" + add_type,
+				async:false,
+				type: 'GET',
+				success: function(data) {
+					$("#intro").html(data);       
+			},
+			error: function(xhr, ajaxOptions, thrownError) {}
+			});
+			$.ajax({
+				url: "shop_cart_ajax.php?cart_count=1",
+				async:true,
+				type: 'GET',
+				success: function(data) {
+					$("#intro_2").html(data);       
+			},
+			error: function(xhr, ajaxOptions, thrownError) {}
+			});
+			// var xhttp2 = new XMLHttpRequest();
+			// xhttp2.onreadystatechange = function() {
+			// 	if (this.readyState == 4 && this.status == 200) {
+			// 			document.getElementById("intro_2").innerHTML = this.responseText;
+			// 	}
+			// };
+			// xhttp2.open("GET", "shop_cart_ajax.php?cart_count=1", true);
+			// xhttp2.send();
+
+			// window.location.href = "shop_cart.php?add_id=" + item_id + "&add_num=" + item_num + "&add_type=" + add_type;
 		})
 	}
 	else if (w_log == 1 && add_type == 1) {
@@ -76,7 +103,34 @@ function is_remove(item_id) {
 				showConfirmButton: false,
 				timer: 800
 			}).then(() => {
-				window.location.assign("shop_cart.php?remove_id=" + item_id);
+				$.ajax({
+					url: "shop_cart_ajax.php?remove_id=" + item_id,
+					async:false,
+					type: 'GET',
+					success: function(data) {
+						$("#intro").html(data);       
+				},
+				error: function(xhr, ajaxOptions, thrownError) {}
+				});
+				$.ajax({
+					url: "shop_cart_ajax.php?cart_count=1",
+					async:true,
+					type: 'GET',
+					success: function(data) {
+						$("#intro_2").html(data);       
+				},
+				error: function(xhr, ajaxOptions, thrownError) {}
+				});				
+				// var xhttp2 = new XMLHttpRequest();
+				// xhttp2.onreadystatechange = function() {
+				// 	if (this.readyState == 4 && this.status == 200) {
+				// 			document.getElementById("intro_2").innerHTML = this.responseText;
+				// 	}
+				// };
+				// xhttp2.open("GET", "shop_cart_ajax.php?cart_count=1", true);
+				// xhttp2.send();
+
+				// window.location.assign("shop_cart.php?remove_id=" + item_id);
 			})
 
 		}
@@ -179,8 +233,151 @@ function is_change(item_id, change_num, item_num){
 	}
 	else
 	{
-		window.location.href = "shop_cart.php?add_id=" + item_id + "&add_num=" + parseInt(change_num)+ "&add_type=3";
+
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+		  if (this.readyState == 4 && this.status == 200) {
+				document.getElementById("intro").innerHTML = this.responseText;
+		  }
+		};
+		xhttp.open("GET", "shop_cart_ajax.php?add_id=" + item_id + "&add_num=" + parseInt(change_num)+ "&add_type=3", true);
+		xhttp.send();
+
+		// window.location.href = "shop_cart.php?add_id=" + item_id + "&add_num=" + parseInt(change_num)+ "&add_type=3";
 	}
+}
+function cart_1(item_id,w_log)
+{
+	
+	var offset = $('#intro_22').offset();//目的地(navbar的購物車)
+	 
+	if(w_log==1)
+	{
+		var w_left=$(window).scrollLeft();
+		var w_top=$(window).scrollTop();		
+		var st = $('#'+item_id).offset();//起始點(商品的購物車圖示)
+		
+		var flyer = $('<img class="flyer" style="height:50px;" src="./images/p_'+item_id+'.jpg">');//用圖源建一個新物件
+		// alert(item_id+"success1"+w_log);
+		$(flyer).load(function(){//該物件加載(圖片)成功才開始飛
+
+			flyer.fly({
+				start: {//開始飛
+					left: st.left - w_left,
+					top: st.top - w_top
+				},
+				end: {//結束
+					left: offset.left + 50 - w_left,
+					top: offset.top - w_top,
+					width: 0,
+					height: 0
+				},
+				speed: 2, //越大越快
+				onEnd: function () {//消除
+					setTimeout(function () {
+					}, 200);
+
+					$.ajax({
+						url: "shop_cart_ajax.php?add_id=" + item_id + "&add_num=1&add_type=0&cart_icon=1",
+						async:false,
+						type: 'GET',
+						// dataType: "json",
+						success: function(data) {
+							$("#"+item_id).html(data);       
+					},
+					error: function(xhr, ajaxOptions, thrownError) {}
+					});
+					$.ajax({
+						url: "shop_cart_ajax.php?cart_count=1",
+						async:true,
+						type: 'GET',
+						// dataType: "json",
+						success: function(data) {
+							$("#intro_2").html(data);       
+					},
+					error: function(xhr, ajaxOptions, thrownError) {}
+					});
+					// var xhttp2 = new XMLHttpRequest();
+					// xhttp2.onreadystatechange = function() {
+					// 	if (this.readyState == 4 && this.status == 200) {
+					// 			document.getElementById("intro_2").innerHTML = this.responseText;
+					// 	}
+					// };
+					// xhttp2.open("GET", "shop_cart_ajax.php?cart_count=1", true);
+					// xhttp2.send();
+				}
+			});				
+		});
+	}
+}
+function nav_slide(log){
+	if(log==1)
+		if(!$("nav").is(':visible'))
+			$("nav").stop().show();
+}
+function is_check(a){
+	$.ajax({
+		url: "shop_cart_ajax.php",
+		type: 'POST',
+		// dataType: "json",
+		data:{
+			check_id:a
+		},
+		success: function(data) { 
+			$("#intro").html(data);      
+	},
+	error: function(xhr, ajaxOptions, thrownError) {}
+	});
+}
+function review()
+{
+	// alert(document.getElementById("item_id").innerHTML)	;
+	// alert(document.getElementById("item_order").innerHTML)	;
+	var x=document.getElementsByName("r");
+	var y=document.getElementById("message-text");
+	var star = "";
+	for (var i = 0; i < x.length; i++) {
+		if (x[i].type == "radio") {
+			if (x[i].checked) {
+				star =  x[i].value;
+			}
+		}
+	}
+	// alert(Str);
+	$.ajax({
+		url: "shop_cart_ajax.php",
+		type: 'POST',
+		data:{
+			item_id:document.getElementById("item_id").innerHTML,
+			item_order:document.getElementById("item_order").innerHTML,
+			item_text:y.value.replace("\n","<br>"),
+			item_star:star
+		},
+		success: function() { 
+		Swal.fire({
+			icon: 'success',
+			title: '已收到您的回覆，謝謝!',
+			showConfirmButton: false,
+			timer: 800
+		}).then(() => {
+			window.location.assign("members_area.php");
+		})			    
+	},
+	error: function(xhr, ajaxOptions, thrownError) {}
+	});	
+
+	// alert(y.value);
+}
+function change_text(seq,name,id,order)
+{
+	var x=document.getElementById("exampleModalLabel");
+	var y=document.getElementById("item_name");
+	x.innerHTML='<div class="container"><div class="row">訂單編號:'+seq+'</div></div>';
+	y.innerHTML='<h4>'+name+'</h4>';
+	document.getElementById("item_id").innerHTML=id;
+	document.getElementById("item_order").innerHTML=order;
+	// alert(document.getElementById("item_id").innerHTML)	;
+	// alert(document.getElementById("item_order").innerHTML)	;
 }
 
 

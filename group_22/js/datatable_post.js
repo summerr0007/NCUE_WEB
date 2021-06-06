@@ -25,6 +25,7 @@ $(function () {
         $('#ann').val(data[0]);
         $('#ptitle').val(data[2]);
         $('#ptext').val(data[3]);
+        $('#picn').val(data[5]);
         $("#g_id_old").val(data[0]);
         $("#oper").val("update");
     });

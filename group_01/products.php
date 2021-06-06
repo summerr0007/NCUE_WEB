@@ -31,7 +31,7 @@ $data .= "<div class='col-lg-4 col-md-4 all $row[type]'>
                       <div class='product-item'>
                         <a href='product.php?id=$row[id]'><img src='assets/images/$row[file_name]' alt=''></a>
                         <div class='down-content'>
-                          <a href='product.php?id=$row[id]'><h4>Tittle goes here</h4></a>
+                          <a href='product.php?id=$row[id]'><h4>click to see the detail</h4></a>
                           <b>$row[name]</b>
                           <h6>$row[money]</h6>
                           <p>$row[about]</p>
@@ -77,13 +77,13 @@ https://templatemo.com/tm-546-sixteen-clothing
   <body>
 
     <!-- ***** Preloader Start ***** -->
-    <div id="preloader">
+     <div id="preloader">
         <div class="jumper">
             <div></div>
             <div></div>
             <div></div>
         </div>
-    </div>  
+    </div>    
     <!-- ***** Preloader End ***** -->
 
     <!-- Header -->
@@ -114,11 +114,15 @@ https://templatemo.com/tm-546-sixteen-clothing
               <li class="nav-item"> 
                 <a class="nav-link" href="about.php">網路商店介紹</a>
               </li>
-              <?php session_start();
+              <?php
               if (isset($_SESSION['account'])) {
                 echo '<li class="nav-item"><a class="nav-link" href="logout.php">登出</a></li>';
-                echo '<li class="nav-item"><a class="nav-link" href="logout.php">' . $_SESSION['account'] . '</a></li>';
-              } else {
+                if($_SESSION['level']==2)
+                  echo '<li class="nav-item"><a class="nav-link" href="member.php">' . $_SESSION['account'] . '</a></li>';
+                else
+                  echo '<li class="nav-item"><a class="nav-link" href="datatable2.php">管理介面</a></li>';
+              } else 
+              {
                 echo '<li class="nav-item"><a class="nav-link" href="contact.php">登入</a></li>';
               }
               ?>
@@ -181,33 +185,7 @@ https://templatemo.com/tm-546-sixteen-clothing
     </div>
     </form>
     
-    <footer>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="inner-content">
-              <p>Copyright &copy; 2020 Sixteen Clothing Co., Ltd.
-            
-            - Design: <a rel="nofollow noopener" href="https://templatemo.com" target="_blank">TemplateMo</a></p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
-
-
-    <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-
-    <!-- Additional Scripts -->
-    <script src="assets/js/custom.js"></script>
-    <script src="assets/js/owl.js"></script>
-    <script src="assets/js/slick.js"></script>
-    <script src="assets/js/isotope.js"></script>
-    <script src="assets/js/accordions.js"></script>
-
+    <?php include("footer.php"); ?>
 
     <script language = "text/Javascript"> 
       cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field

@@ -24,7 +24,7 @@ if(!isset($_SESSION['account']))
       //將帳號寫入session，方便驗證使用者身份
       $_SESSION['account'] = $account;
       $_SESSION['password'] = $password;
-      if ($_POST['account'] == "admin" && $_POST['password'] == "12345") {
+      if ($_POST['account'] == "admin" && $_POST['password'] == "admin123456") {
         $_SESSION['level'] = 9; //管理者
       }
       else
@@ -91,7 +91,7 @@ https://templatemo.com/tm-546-sixteen-clothing
 
     $("#contact").validate({
     rules: {
-        name:{
+        account:{
           minlength: 4,
           maxlength: 10
         },
@@ -101,7 +101,7 @@ https://templatemo.com/tm-546-sixteen-clothing
         },
     },
     messages: {
-      name:{
+      account:{
           minlength: "帳號最少要4個字",
           maxlength: "帳號最長10個字"
         },
@@ -110,11 +110,16 @@ https://templatemo.com/tm-546-sixteen-clothing
   });
   </script>
   </head>
-
+  <style type="text/css">
+.error {
+     color: #D82424;
+     padding: 1px;
+}
+</style>
   <body>
 
     <!-- ***** Preloader Start ***** -->
-    <div id="preloader">
+     <div id="preloader">
         <div class="jumper">
             <div></div>
             <div></div>
@@ -141,7 +146,7 @@ https://templatemo.com/tm-546-sixteen-clothing
               <li class="nav-item">
                 <a class="nav-link" href="products.php">產品</a>
               </li>
-              <?php session_start();
+              <?php
               if (isset($_SESSION['account'])) {
                 echo '<li class="nav-item"><a class="nav-link" href="cart.php">購物車</a></li>';
               } else {
@@ -151,11 +156,15 @@ https://templatemo.com/tm-546-sixteen-clothing
               <li class="nav-item"> 
                 <a class="nav-link" href="about.php">網路商店介紹</a>
               </li>
-              <?php session_start();
+              <?php
               if (isset($_SESSION['account'])) {
-                echo '<li class="nav-item"><a class="nav-link" href="logout.php">登出</a></li>';
-                echo '<li class="nav-item"><a class="nav-link " href="logout.php">' . $_SESSION['account'] . '</a></li>';
-              } else {
+                echo '<li class="nav-item"><a class="nav-link active" href="logout.php">登出</a></li>';
+                if($_SESSION['level']==2)
+                  echo '<li class="nav-item"><a class="nav-link active" href="member.php">' . $_SESSION['account'] . '</a></li>';
+                else
+                  echo '<li class="nav-item"><a class="nav-link active" href="datatable2.php">管理介面</a></li>';
+              } else 
+              {
                 echo '<li class="nav-item"><a class="nav-link active" href="contact.php">登入</a></li>';
               }
               ?>
@@ -191,12 +200,12 @@ https://templatemo.com/tm-546-sixteen-clothing
                 <div class="row">
                   <div class="col-lg-12 col-md-12 col-sm-12">
                     <fieldset>
-                      <input name="account" type="text" class="form-control" id="account" placeholder="Account Number " required="">
+                      <input name="account" type="text" class="form-control" id="account" placeholder="Account Number" required="" style="color: black;">
                     </fieldset>
                   </div>
                   <div class="col-lg-12 col-md-12 col-sm-12">
                     <fieldset>
-                      <input name="password" type="password" class="form-control" id="password" placeholder="Password" required="">
+                      <input name="password" type="password" class="form-control" id="password" placeholder="Password" required="" style="color: black;">
                     </fieldset>
                   </div>
                   <div class="col-lg-12">
@@ -216,37 +225,8 @@ https://templatemo.com/tm-546-sixteen-clothing
         </div>
       </div>
     </div>
-
     
-
-    
-    <footer>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="inner-content">
-              <p>Copyright &copy; 2020 Sixteen Clothing Co., Ltd.
-            
-            - Design: <a rel="nofollow noopener" href="https://templatemo.com" target="_blank">TemplateMo</a></p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
-
-
-    <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-
-    <!-- Additional Scripts -->
-    <script src="assets/js/custom.js"></script>
-    <script src="assets/js/owl.js"></script>
-    <script src="assets/js/slick.js"></script>
-    <script src="assets/js/isotope.js"></script>
-    <script src="assets/js/accordions.js"></script>
-
+    <?php include("footer.php"); ?>
 
     <script language = "text/Javascript"> 
       cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field

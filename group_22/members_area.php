@@ -39,7 +39,14 @@
         
         $sql = "update order_form set time = '".$_GET['time']."'where 
                 order_form.members_id = '".$_SESSION['user_id']."' and 
-                order_form.order_count = '".$_GET['bill']."'";
+                order_form.order_count = '".$_GET['bill']."' and
+                order_form.apply_for_return = 0";
+        mysqli_query($link, $sql);
+
+        $sql = "update order_form set order_count = ".$_GET['bill']."+1 where 
+                order_form.members_id = '".$_SESSION['user_id']."' and 
+                order_form.order_count = '".$_GET['bill']."' and
+                order_form.apply_for_return = 1";
         mysqli_query($link, $sql);
 
         $sql = "update members set bill = bill + 1 where 
@@ -71,7 +78,7 @@
         header("location: members_area.php"); 
     }
 
-    $sql = "select order_form.order_count, order_form.quantity, order_form.time, order_form.apply_for_return, commodity.name, commodity.price, commodity.pid
+    $sql = "select order_form.order_count, order_form.quantity, order_form.time, order_form.apply_for_return, order_form.comment, commodity.name, commodity.price, commodity.pid
             from order_form
             left join commodity
             on order_form.commodity_id = commodity.pid
@@ -99,10 +106,14 @@
                         <td>".$row['quantity']."</td>
                         <td>".$row['price']."</td>
                         <td class='text-right'>
-                        <button class='btn btn-sm btn-danger' onClick='" . ($row['apply_for_return'] == 1?"": "
-                        area_remove(".$row['pid'].",".$row['order_count'].")"). "'> " . 
+                        <div id='".$real_num.$row['pid']."'><button class='btn btn-sm ".($row['comment']==1?'btn-secondary':'btn-info')."' data-toggle='modal' data-target='#exampleModal' ".($row['comment']==1?"disabled":"onclick='change_text(".'"'.$real_num.'"'.",".'"'.$row['name'].'"'.",".$row['pid'].",".$row['order_count'].")'").">".($row['comment']==1?"完成":"給評")."</button></div>
+                        </td>                        
+                        <td class='text-right'>
+                        <button class='btn btn-sm btn-danger' " . ($row['apply_for_return'] == 1?"disabled": 
+                        "onClick='area_remove(".$row['pid'].",".$row['order_count'].")'"). "> " . 
                         ($row['apply_for_return']==1?"申請退貨中":"申請退貨") . "</button>
                         </td>
+
                         </tr>";
 
                 $count++;
@@ -147,40 +158,32 @@
     <link href="css/style.css" rel="stylesheet">
     <script src="js/in_cart.js"></script>
     <link rel="stylesheet" href="css/style.css">
-    <script> 
-        var top1 = 0;
+    <script>
         $(document).ready(function(){
-            const $ScrollWrap = $("#scroll-wrap")
-            // 监听滚动停止
-            let t1 = 0;
-            let t2 = 0;
-            let timer = null; // 定時器
-            $(window).on("touchstart", function(){
-                // 觸控開始
-            })
-            $(window).on("scroll", function(){
-                // 滾動
-                clearTimeout(timer)
-                timer = setTimeout(isScrollEnd, 100)
-                t1 = $(this).scrollTop()
-            })
-            function isScrollEnd() {
-                t2 = $(window).scrollTop();
-                if(t2 == t1){
-                    if(t2>top1)
-                    {
-                        top1=t2;
-                        $("nav").slideUp();
-                    }
-                    else if(t2<top1)
-                    {
-                        top1=t2;
-                        $("nav").slideDown();
-                    }
-                    clearTimeout(timer)
+
+            var p=0,
+
+                t=0,
+
+                n=$("nav");
+
+            $(window).scroll(function(){
+
+                p=$(this).scrollTop();
+
+                if(t<p&&n.is(':visible')){
+                    n.stop().fadeOut(25);
+                    //下滾
                 }
-            }
-        })
+                else if(t>p&&!n.is(':visible')){
+                    n.stop().show();
+                        //上滾            
+                }
+                t = p ;
+                // setTimeout(function(){ t = p ; },0)
+            })
+
+        })        
     </script>    
 </head>
 
@@ -258,6 +261,64 @@
             }
             else 
             {
+                if($rows!="")
+                {
+                    echo'
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <div class="modal-title" id="exampleModalLabel"></div>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                            <div style="display:none" id="item_id"></div>
+                            <div style="display:none" id="item_order"></div>
+                            <div class="container">
+                            <div class="row align-items-center" id="item_name"></div>
+                            </div>
+                            <label class="col-form-label">評分(此處為匿名評分):</label>
+                            <div class="form-group">  
+                                
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="r" id="inlineRadio1" value="1">
+                                    <label class="form-check-label" for="inlineRadio1">1</label>
+                                </div>
+                                
+                                <div class="form-check form-check-inline" >
+                                    <input class="form-check-input" type="radio" name="r" id="inlineRadio2" value="2">
+                                    <label class="form-check-label" for="inlineRadio2">2</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="r" id="inlineRadio3" value="3" >
+                                    <label class="form-check-label" for="inlineRadio3">3</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="r" id="inlineRadio4" value="4" >
+                                    <label class="form-check-label" for="inlineRadio4">4</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="r" id="inlineRadio5" value="5" checked>
+                                    <label class="form-check-label" for="inlineRadio5">5</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="message-text" class="col-form-label">為這本書留下評論吧(非匿名，可不填寫):</label>
+                              <textarea class="form-control" id="message-text"></textarea>
+                            </div>
+                          
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+                          <button type="button" class="btn btn-info" onclick="review()">送出評論</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                    ';
+                }
                 echo'                <div style="margin-top:5px"></div>
                 <div class="row">
                     <div class="col-md-8 "></div>
@@ -286,6 +347,7 @@
                                 <th scope="col" >品名</th>
                                 <th scope="col" >數量</th>
                                 <th scope="col" >單價</th>
+                                <th scope="col" class="text-center">評論</th>
                                 <th scope="col" class="text-right">取消訂單</th>
                             </tr>
                         </thead>
@@ -298,12 +360,13 @@
             ?>
                 <div class="row">
                     <?php
+                        if(isset($_GET['type'])&&$_GET['type']=="修改個人資料");else{
                         if($index != 0) echo '<a href="members_area.php?index='.($index-1).'"><button class="btn btn-primary">
                         上一頁
                     </button></a>';
                         if(($index+1)*10 <= $count) echo '&emsp;<a href="members_area.php?index='.($index+1).'"><button class="btn btn-primary">
                         下一頁
-                    </button></a>';
+                    </button></a>';}
                     ?>
                 </div>
             </div>

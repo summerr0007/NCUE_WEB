@@ -24,7 +24,7 @@ a{
 .object-fit_scale-down { object-fit: scale-down }
 
 img { 
-  height: 270px; 
+  height: 240px; 
   /* background-color: white;   */
   background: hsla(0,0%,100%,.3);
 }
@@ -39,4 +39,17 @@ body
     padding-top: 56px;
     font-family: "微軟正黑體";
     background-image: linear-gradient(to bottom right, white 40%, #dfe9f3 100%);
+}
+/* .headroom {
+  will-change: transform;
+  transition: transform 200ms linear;
+}
+.headroom--pinned {
+  transform: translateY(0%);
+}
+.headroom--unpinned {
+  transform: translateY(-100%);
+} */
+.dropdown-item:hover{
+  background-color: rgba(0,0,0,0.5);
 }

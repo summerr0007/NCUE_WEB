@@ -1,3 +1,29 @@
+<?php
+  if(isset($_SESSION['user_id']))
+  {
+    $row="";
+    $cart_count=0;
+    // session_start();
+    $link = mysqli_connect('localhost','root','root123456','group_22')
+    or die("無法開啟MySQL資料庫連結!<br>");
+    mysqli_query($link, 'SET CHARACTER SET utf8');
+    mysqli_query($link, "SET collation_connection = 'utf8_unicode_ci'");
+    // $sql = "select commodity_id from order_form where members_id = '".$_SESSION['user_id']."' and time = 0";
+    $sql = "select count(commodity_id) as total from order_form where members_id = '".$_SESSION['user_id']."' and time = 0";
+    $result = mysqli_query($link, $sql);
+    $row = mysqli_fetch_assoc($result);
+    $cart_count = $row['total'];
+    // if ($result = mysqli_query($link, $sql)) {
+    //     while ($row = mysqli_fetch_assoc($result)) {
+    //         $cart_count+=1;
+    //     }
+    //      mysqli_free_result($result); // 釋放佔用的記憶體   
+    // }      
+  }
+  else
+    $cart_count=0;
+?>
+<!-- <div class="s">好挖</div> -->
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-image: linear-gradient(to top, #43506c 0%, #537895 100%);">
 <!-- <nav class="navbar navbar-light fixed-top" style="background-color: #e3f2fd;"> -->
     <div class="container">
@@ -10,7 +36,7 @@
         <ul class="navbar-nav ml-auto">
             <!-- 搜尋列 -->
             <li class="nav-item">
-                    <form class="form-inline" name="form_search" id="form_search" action="itemlist.php" method="POST">
+                    <form class="form-inline" name="form_search" id="form_search" action="index.php" method="POST">
                         <input class="form-control" aria-label="Search" type="text" id="key" name="key" placeholder="想搜尋的物品"
                         <?php if(isset($_POST['key'])) echo 'value="'.$_POST['key'].'"';?>>
                         <button class="btn text-white" type="submit"style="background: linear-gradient(to bottom, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.15) 100%), radial-gradient(at top center, rgba(255,255,255,0.40) 0%, rgba(0,0,0,0.40) 120%) #989898;
@@ -38,8 +64,8 @@
             </a>
           </li>
           <!-- 購物車 -->
-          <li class="nav-item <?php if($page==4) echo "active";?>">
-            <a class="nav-link" href="shop_cart.php">購物車</a>
+          <li class="nav-item  <?php if($page==4) echo "active";?>" id="intro_22">
+            <a class="nav-link" href="shop_cart.php"><div id="intro_2">購物車(<?php echo $cart_count ;?>)</div></a>
           </li>
           <!-- <li class="nav-item <?php if($page == 5) echo " active"; ?>">
             <a class="nav-link" href="buyed_book.php">

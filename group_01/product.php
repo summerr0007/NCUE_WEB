@@ -14,6 +14,10 @@ $type="";
 $shape="";
 $apple="";
 $maki="";
+$inventory=1;
+$cantbuy="";
+$check="";
+$cost=0;
 $nico=1;
 $i=0;
 // 送出查詢的SQL指令
@@ -21,7 +25,7 @@ session_start();
 if (isset($_SESSION['cart'])) {
         $cnt = count($_SESSION['cart']);
     } else {
-        $cnt = 10;
+        $cnt = 0;
     }   
 if ($result = mysqli_query($link, "SELECT * FROM product order by id")) {
 while ($row = mysqli_fetch_assoc($result)) {
@@ -33,6 +37,8 @@ while ($row = mysqli_fetch_assoc($result)) {
   $type .= "$row[type]";
   $shape .= "$row[shape]";
   $url='product.php?id='.$id;
+  $inventory = "$row[inventory]";
+  $cost = "$row[cost]";
 }
 }
 $result = mysqli_query($link, "SELECT * FROM product order by rand()");
@@ -54,8 +60,20 @@ while ($row = mysqli_fetch_assoc($result)) {
 }
 mysqli_free_result($result); // 釋放佔用的記憶體
 }
+date_default_timezone_set('Asia/Taipei');
+                        $stamps =  time ();
+                        $today = getdate($stamps);
+                        $month = $today["mon"];
+                        if(strlen($month)=='1')$month='0'.$month;
+                        $day = $today["mday"];
+                        if(strlen($day)=='1')$day='0'.$day;
+                        $year = $today["year"];
+                        $hours = $today["hours"];
+                        if(strlen($hours)=='1')$hours='0'.$hours;
+                        $minutes = $today["minutes"];
+                        if(strlen($minutes)=='1')$minutes='0'.$minutes;
 if (isset($_POST['c8763'])&&$_POST['doc_detail']!="") {
-      $sql = "insert into evaluate values ('" . $data . "','" . "桐谷和人" . "','" . $_POST['doc_detail']. "','". $year."','". $month."','". $day."','". $hours."','". $minutes."')";
+      $sql = "insert into evaluate values ('" . $data . "','" . $_SESSION['account'] . "','" . $_POST['doc_detail']. "','". $year."','". $month."','". $day."','". $hours."','". $minutes."')";
       if ($result = mysqli_query($link, $sql)) // 送出查詢的SQL指令
       {
           $msg = "<span style='color:#0000FF'>資料新增成功!</span>";
@@ -75,17 +93,43 @@ if($result =mysqli_query($link, "SELECT * FROM evaluate ")){
 }
   mysqli_free_result($result);
 }
-if (isset($_POST['buy'])) { session_start();
-      $sql = "insert into cart values ('" . $_SESSION['account'] . "','" . $data . "','" . $money . "','" . $images . "')";
-
+if(isset($_SESSION['account'])){
+if($result = mysqli_query($link, "SELECT * FROM cart where account = '" . $_SESSION['account'] . "' and product_name = '" . $data . "'")){
+  if($row = mysqli_fetch_assoc($result))
+    $check = "$row[account]";
+  else
+    $check = "";
+  if($check != "")
+    $cantbuy = "您已購買過,請至購物車移除訂單";
+  mysqli_free_result($result);
+}
+}
+if (isset($_POST['notlogin1'])) { 
+      echo '<meta http-equiv=REFRESH CONTENT=0;url=contact.php>';
+} 
+if (isset($_POST['notlogin2'])) { 
+      echo '<meta http-equiv=REFRESH CONTENT=0;url=contact.php>';
+} 
+if (isset($_POST['num'])) {
+  if($_POST['num'] > 0 && $_POST['num'] <= $inventory && $check == "")
+  {   
+      $sql = "insert into cart values ('" . $_SESSION['account'] . "','" . $data . "','" . $money . "','" . $images . "','" . $_POST['num'] . "','" . $cost . "')";
       if ($result = mysqli_query($link, $sql)) // 送出查詢的SQL指令
       {
           $msg = "<span style='color:#0000FF'>資料新增成功!</span>";
       } else {
           $msg = "<span style='color:#FF0000'>資料新增失敗！<br>錯誤代碼：" . mysqli_errno($link) . "<br>錯誤訊息：" . mysqli_error($link) . "</span>";
       }
-  }  
-
+      $inventory = $inventory - $_POST['num'];
+      mysqli_query($link, "UPDATE product SET inventory=".$inventory." WHERE name = '". $data ."'");
+      header('Location: products.php');
+      exit();
+  }
+  else if($_POST['num'] < 1)
+    $cantbuy = "最少購買數量為1";
+  else if($_POST['num'] > $inventory)
+    $cantbuy = "庫存不足";
+}  
 
 mysqli_close($link); // 關閉資料庫連結
 ?>
@@ -99,7 +143,7 @@ mysqli_close($link); // 關閉資料庫連結
     <meta name="description" content="">
     <meta name="author" content="">
 
-
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <title>book</title>
 
     <!-- Bootstrap core CSS -->
@@ -116,6 +160,7 @@ https://templatemo.com/tm-546-sixteen-clothing
     <!-- Additional CSS Files -->
 
     <link rel="stylesheet" href="assets/css/templatemo-sixteen.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/owl.css">
     <script>
   function isHidden(oDiv,cDiv){
@@ -129,8 +174,8 @@ https://templatemo.com/tm-546-sixteen-clothing
 
   <body>
 
-    <!-- ***** Preloader Start ***** -->
-    <div id="preloader">
+    <!-- ***** Preloader Start ***** --> 
+     <div id="preloader">
         <div class="jumper">
             <div></div>
             <div></div>
@@ -157,21 +202,25 @@ https://templatemo.com/tm-546-sixteen-clothing
               <li class="nav-item active">
                 <a class="nav-link" href="products.php">產品</a>
               </li>
-              <?php session_start();
+              <?php
               if (isset($_SESSION['account'])) {
-                echo '<li class="nav-item"><a class="nav-link" href="cart.php">購物車<span class="badge alert-danger">'."$cnt". '</span></a></li>';
+                echo '<li class="nav-item"><a class="nav-link" href="cart.php">購物車</a></li>';
               } else {
-                echo '<li class="nav-item"><a class="nav-link" href="contact.php">購物車<span class="badge alert-danger">'."$cnt". '</span></a></li>';
+                echo '<li class="nav-item"><a class="nav-link" href="contact.php">購物車</a></li>';
               }
               ?>
               <li class="nav-item"> 
                 <a class="nav-link" href="about.php">網路商店介紹</a>
               </li>
-              <?php session_start();
+              <?php
               if (isset($_SESSION['account'])) {
                 echo '<li class="nav-item"><a class="nav-link" href="logout.php">登出</a></li>';
-                echo '<li class="nav-item"><a class="nav-link" href="logout.php">' . $_SESSION['account'] . '</a></li>';
-              } else {
+                if($_SESSION['level']==2)
+                  echo '<li class="nav-item"><a class="nav-link" href="member.php">' . $_SESSION['account'] . '</a></li>';
+                else
+                  echo '<li class="nav-item"><a class="nav-link" href="datatable2.php">管理介面</a></li>';
+              } else 
+              {
                 echo '<li class="nav-item"><a class="nav-link" href="contact.php">登入</a></li>';
               }
               ?>
@@ -207,15 +256,34 @@ https://templatemo.com/tm-546-sixteen-clothing
           <div class="col-md-6">
             <div class="left-content">
               <h3><?php echo $data;?></h3><hr>
-              <h5>特價:<?php echo $money;?></h5><hr>
+              <h5>價格<?php echo $money;?></h5><hr>
               <h6>型號: <?php echo $about;?><br>形狀： <?php echo $shape;?><br>材質：<?php echo $type;?></h6><hr><br>
-              <form action="" method="POST"><input type="submit" name="buy" value="購買" onclick="javascript:location.href='addcartnum.php?id=<?php echo $id;?>'"/></form>
+              <div class="row">
+              <h3>購買</h3>
+              <form action="" method="POST">
+              <?php 
+                if (isset($_SESSION['account']))
+                  echo '<input type="number" class="form-control" size="10" name="num" id="num" style="text-align:center" value="1"/>';
+                  else
+                  echo '<input type="number" class="form-control" size="10" style="text-align:center" value="1"/>'; 
+              ?>
+              <?php if (isset($_SESSION['account'])) {
+                  echo '<br><button type="submit" class="btn btn-danger"/>購買</button>';}
+                  else
+                  echo '<br><button type="submit" class="btn btn-danger" name="notlogin1"/>購買</button>';
+              ?>              
+              </form>
+              <h3>件</h3> 
+              </div>
+              <br>
+              <h5><font color="black">庫存尚餘<?php echo "$inventory"; ?>件</font></h5>
+              <br>
+              <?php echo "<font color='red'>$cantbuy</font>"; ?>
             </div>
           </div>
         </div>
       </div>
     </div>
-
     <div class="latest-products">
      <div class="container">
         <div class="row">
@@ -234,7 +302,12 @@ https://templatemo.com/tm-546-sixteen-clothing
             <div class="col-md-12" colspan="3"><h4>給予評論</h4>
             <form action="" method="POST">
             <textarea style='font-size: 10pt' name='doc_detail' id="doc_detail" rows="7" cols="100" style="font-size:14px;color:blue" class="form-control"></textarea>
-           <input type="submit" name="c8763" value="評論"  class="filled-button btn btn-info "/>
+            <?php if (isset($_SESSION['account'])) {
+                  echo '<input type="submit" name="c8763" value="評論"  class="filled-button btn btn-info "/>';}
+                  else
+                  echo '<input type="submit" name="notlogin2" value="評論"  class="filled-button btn btn-info "/>';
+                ?>
+           
          </form>
              </div>
              <br><h2>推薦商品 </h2><hr>
@@ -259,33 +332,7 @@ https://templatemo.com/tm-546-sixteen-clothing
       </div>
     </div>         
 
-    <footer>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="inner-content">
-              <p>Copyright &copy; 2020 Sixteen Clothing Co., Ltd.
-            
-            - Design: <a rel="nofollow noopener" href="https://templatemo.com" target="_blank">TemplateMo</a></p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
-
-
-    <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-
-    <!-- Additional Scripts -->
-    <script src="assets/js/custom.js"></script>
-    <script src="assets/js/owl.js"></script>
-    <script src="assets/js/slick.js"></script>
-    <script src="assets/js/isotope.js"></script>
-    <script src="assets/js/accordions.js"></script>
-
+    <?php include("footer.php"); ?>
 
     <script language = "text/Javascript"> 
       cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field

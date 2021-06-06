@@ -77,39 +77,64 @@ if(isset($_POST['account']) and isset($_POST['password']))
 
     </script>
     <script> 
-        var top1 = 0;
+        // var top1 = 0;
+        // $(document).ready(function(){
+        //     const $ScrollWrap = $("#scroll-wrap")
+        //     // 监听滚动停止
+        //     let t1 = 0;
+        //     let t2 = 0;
+        //     let timer = null; // 定時器
+        //     $(window).on("touchstart", function(){
+        //         // 觸控開始
+        //     })
+        //     $(window).on("scroll", function(){
+        //         // 滾動
+        //         clearTimeout(timer)
+        //         timer = setTimeout(isScrollEnd, 100)
+        //         t1 = $(this).scrollTop()
+        //     })
+        //     function isScrollEnd() {
+        //         t2 = $(window).scrollTop();
+        //         if(t2 == t1){
+        //             if(t2>top1)
+        //             {
+        //                 top1=t2;
+        //                 $("nav").slideUp();
+        //             }
+        //             else if(t2<top1)
+        //             {
+        //                 top1=t2;
+        //                 $("nav").slideDown();
+        //             }
+        //             clearTimeout(timer)
+        //         }
+        //     }
+        // })
         $(document).ready(function(){
-            const $ScrollWrap = $("#scroll-wrap")
-            // 监听滚动停止
-            let t1 = 0;
-            let t2 = 0;
-            let timer = null; // 定時器
-            $(window).on("touchstart", function(){
-                // 觸控開始
-            })
-            $(window).on("scroll", function(){
-                // 滾動
-                clearTimeout(timer)
-                timer = setTimeout(isScrollEnd, 100)
-                t1 = $(this).scrollTop()
-            })
-            function isScrollEnd() {
-                t2 = $(window).scrollTop();
-                if(t2 == t1){
-                    if(t2>top1)
-                    {
-                        top1=t2;
-                        $("nav").slideUp();
-                    }
-                    else if(t2<top1)
-                    {
-                        top1=t2;
-                        $("nav").slideDown();
-                    }
-                    clearTimeout(timer)
+
+            var p=0,
+
+                t=0,
+
+                n=$("nav");
+
+            $(window).scroll(function(){
+
+                p=$(this).scrollTop();
+
+                if(t<p&&n.is(':visible')){
+                    n.stop().fadeOut(25);
+                    //下滾
                 }
-            }
-        })
+                else if(t>p&&!n.is(':visible')){
+                    n.stop().show();
+                        //上滾            
+                }
+                t = p ;
+                // setTimeout(function(){ t = p ; },0)
+            })
+
+        })        
     </script>    
     <script src="js/in_cart.js"></script>
     <style type="text/css">

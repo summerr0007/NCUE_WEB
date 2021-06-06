@@ -98,11 +98,15 @@ https://templatemo.com/tm-546-sixteen-clothing
               <li class="nav-item"> 
                 <a class="nav-link" href="about.php">網路商店介紹</a>
               </li>
-              <?php session_start();
+              <?php
               if (isset($_SESSION['account'])) {
                 echo '<li class="nav-item"><a class="nav-link" href="logout.php">登出</a></li>';
-                echo '<li class="nav-item"><a class="nav-link" href="datatable.php">' . $_SESSION['account'] . '</a></li>';
-              } else {
+                if($_SESSION['level']==2)
+                  echo '<li class="nav-item"><a class="nav-link" href="member.php">' . $_SESSION['account'] . '</a></li>';
+                else
+                  echo '<li class="nav-item"><a class="nav-link" href="datatable2.php">管理介面</a></li>';
+              } else 
+              {
                 echo '<li class="nav-item"><a class="nav-link" href="contact.php">登入</a></li>';
               }
               ?>
@@ -139,38 +143,8 @@ https://templatemo.com/tm-546-sixteen-clothing
         </div>
       </div>
     </div>
-
     
-
-
-    
-    <footer>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="inner-content">
-              <p>Copyright &copy; 2020 Sixteen Clothing Co., Ltd.
-            
-            - Design: <a rel="nofollow noopener" href="https://templatemo.com" target="_blank">TemplateMo</a></p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
-
-
-    <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-
-    <!-- Additional Scripts -->
-    <script src="assets/js/custom.js"></script>
-    <script src="assets/js/owl.js"></script>
-    <script src="assets/js/slick.js"></script>
-    <script src="assets/js/isotope.js"></script>
-    <script src="assets/js/accordions.js"></script>
-
+    <?php include("footer.php"); ?>
 
     <script language = "text/Javascript"> 
       cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field

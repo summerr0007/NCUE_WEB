@@ -30,7 +30,7 @@ https://templatemo.com/tm-546-sixteen-clothing
   <body>
 
     <!-- ***** Preloader Start ***** -->
-    <div id="preloader">
+     <div id="preloader">
         <div class="jumper">
             <div></div>
             <div></div>
@@ -67,11 +67,15 @@ https://templatemo.com/tm-546-sixteen-clothing
               <li class="nav-item active"> 
                 <a class="nav-link" href="about.php">網路商店介紹</a>
               </li>
-              <?php session_start();
+              <?php
               if (isset($_SESSION['account'])) {
                 echo '<li class="nav-item"><a class="nav-link" href="logout.php">登出</a></li>';
-                echo '<li class="nav-item"><a class="nav-link" href="logout.php">' . $_SESSION['account'] . '</a></li>';
-              } else {
+                if($_SESSION['level']==2)
+                  echo '<li class="nav-item"><a class="nav-link" href="member.php">' . $_SESSION['account'] . '</a></li>';
+                else
+                  echo '<li class="nav-item"><a class="nav-link" href="datatable2.php">管理介面</a></li>';
+              } else 
+              {
                 echo '<li class="nav-item"><a class="nav-link" href="contact.php">登入</a></li>';
               }
               ?>
@@ -106,8 +110,8 @@ https://templatemo.com/tm-546-sixteen-clothing
           </div>
           <div class="col-md-6">
             <div class="left-content">
-              &nbsp&nbsp這個商店收集了各式書籍，像是思想財經類，還是推理劇情類等等，雖然看似很少書，但我們只推薦精品，此外每本書都有他獨立的介紹與評價。<br>
-              &nbsp&nbsp更令人瞠目結舌的事情是全館9成商品都在特價中，買一本賺一本，現在不立刻下定在等何時。<br>
+              &nbsp&nbsp這個商店收集了各式眼鏡，無論方框或圓框以及各種其他形狀和材質都有，讓您在配戴上後變成路上的焦點。<br>
+              &nbsp&nbsp更令人瞠目結舌的事情是全館9成商品都在特價中，買一副賺一副，現在不立刻下定在等何時。<br>
               &nbsp&nbsp這個網站使用RWD系統因此不管你是用手機還是電腦都能夠完整地看到本站中的情報，並且加入會員能夠使你獲得更多的資訊，因此趕快按下登錄鍵來看各種福利。
             </div>
           </div>
@@ -115,37 +119,7 @@ https://templatemo.com/tm-546-sixteen-clothing
       </div>
     </div>
 
-    
-    
-
-    
-    <footer>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="inner-content">
-              <p>Copyright &copy; 2020 Sixteen Clothing Co., Ltd.
-            
-            - Design: <a rel="nofollow noopener" href="https://templatemo.com" target="_blank">TemplateMo</a></p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
-
-
-    <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-
-    <!-- Additional Scripts -->
-    <script src="assets/js/custom.js"></script>
-    <script src="assets/js/owl.js"></script>
-    <script src="assets/js/slick.js"></script>
-    <script src="assets/js/isotope.js"></script>
-    <script src="assets/js/accordions.js"></script>
-
+    <?php include("footer.php"); ?>
 
     <script language = "text/Javascript"> 
       cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field

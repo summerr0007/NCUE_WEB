@@ -74,7 +74,7 @@ https://templatemo.com/tm-546-sixteen-clothing
 
     $("#contact").validate({
     rules: {
-        name:{
+        account:{
           minlength: 4,
           maxlength: 10
         },
@@ -89,9 +89,13 @@ https://templatemo.com/tm-546-sixteen-clothing
         }
     },
     messages: {
-      name:{
+      account:{
           minlength: "帳號最少要4個字",
           maxlength: "帳號最長10個字"
+        },
+        password: {
+          minlength: "密碼最少要6個字",
+          maxlength: "密碼最長15個字"
         },
         password2: {
             equalTo: "兩次密碼不相符"
@@ -101,7 +105,12 @@ https://templatemo.com/tm-546-sixteen-clothing
   });
   });
   </script>
-
+  <style type="text/css">
+.error {
+     color: #D82424;
+     padding: 1px;
+}
+</style>
 
   </head>
 
@@ -145,7 +154,7 @@ https://templatemo.com/tm-546-sixteen-clothing
               <li class="nav-item"> 
                 <a class="nav-link" href="about.php">網路商店介紹</a>
               </li>
-              <?php session_start();
+              <?php
               if (isset($_SESSION['account'])) {
                 echo '<li class="nav-item"><a class="nav-link" href="logout.php">登出</a></li>';
                 echo '<li class="nav-item"><a class="nav-link" href="datatable.php">' . $_SESSION['account'] . '</a></li>';
@@ -191,22 +200,22 @@ https://templatemo.com/tm-546-sixteen-clothing
                 <div class="row">
                   <div class="col-lg-12 col-md-12 col-sm-12">
                     <fieldset>
-                      <input name="email" type="email" class="form-control" id="email" placeholder="email" required="">
+                      <input name="email" type="email" class="form-control" id="email" placeholder="email" required="" style="color: black;">
                     </fieldset>
                   </div>
                   <div class="col-lg-12 col-md-12 col-sm-12">
                     <fieldset>
-                      <input name="account" type="text" class="form-control" id="account" placeholder="Account Number " required="">
+                      <input name="account" type="text" class="form-control" id="account" placeholder="Account Number " required="" style="color: black;">
                     </fieldset>
                   </div>
                   <div class="col-lg-12 col-md-12 col-sm-12">
                     <fieldset>
-                      <input name="password" type="password" class="form-control" id="password" placeholder="Password" required="">
+                      <input name="password" type="password" class="form-control" id="password" placeholder="Password" required="" style="color: black;">
                     </fieldset>
                   </div>
                   <div class="col-lg-12 col-md-12 col-sm-12">
                     <fieldset>
-                      <input name="password2" type="password" class="form-control" id="password2" placeholder="Reapt Password" required=""  equalTo= "#password">
+                      <input name="password2" type="password" class="form-control" id="password2" placeholder="Reapt Password" required=""  equalTo= "#password" style="color: black;">
                     </fieldset>
                   </div>
                   <div class="col-lg-12">
@@ -225,32 +234,7 @@ https://templatemo.com/tm-546-sixteen-clothing
     
 
     
-    <footer>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="inner-content">
-              <p>Copyright &copy; 2020 Sixteen Clothing Co., Ltd.
-            
-            - Design: <a rel="nofollow noopener" href="https://templatemo.com" target="_blank">TemplateMo</a></p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
-
-
-    <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-
-    <!-- Additional Scripts -->
-    <script src="assets/js/custom.js"></script>
-    <script src="assets/js/owl.js"></script>
-    <script src="assets/js/slick.js"></script>
-    <script src="assets/js/isotope.js"></script>
-    <script src="assets/js/accordions.js"></script>
+    <?php include("footer.php"); ?>
 
 
     <script language = "text/Javascript"> 

@@ -1,6 +1,7 @@
 <?php
 $page = 0;
 $log=0;
+$rwd = 0;
 session_start();
 if(isset($_SESSION['user_id']))
 {
@@ -15,52 +16,48 @@ if(isset($_GET['item_id']))
 else
     header('location: index.php');
 include "content.php";
-if(isset($_POST['review']) and strcmp(trim($_POST['review']),"") != 0)
-{
-    if(isset($_SESSION['user_id']))
-    {
-        include "link.php";
+include "recommend.php";
+// if(isset($_POST['review']) and strcmp(trim($_POST['review']),"") != 0)
+// {
+//     if(isset($_SESSION['user_id']))
+//     {
+//         include "link.php";
 
-        $sql = "insert into reviews (pid,account,review) values ('$id','$_SESSION[user_id]','".nl2br(htmlentities($_POST['review']))."')";
+//         $sql = "insert into reviews (pid,account,review) values ('$id','$_SESSION[user_id]','".nl2br(htmlentities($_POST['review']))."')";
 
-        if($result = mysqli_query($link,$sql))
-        {
-            echo "<script> window.location.href = 'item.php?item_id=$id&comment_s=1'; </script>";
-        }
-        mysqli_close($link);
-    }
-    else
-        header("location: login.php");
-}
-else if(isset($_POST['review']) and strcmp(trim($_POST['review']),"") == 0)
-    echo "<script> window.location.href = 'item.php?item_id=$id&comment_s=0'; </script>";
+//         if($result = mysqli_query($link,$sql))
+//         {
+//             echo "<script> window.location.href = 'item.php?item_id=$id&comment_s=1'; </script>";
+//         }
+//         mysqli_close($link);
+//     }
+//     else
+//         header("location: login.php");
+// }
+// else if(isset($_POST['review']) and strcmp(trim($_POST['review']),"") == 0)
+//     echo "<script> window.location.href = 'item.php?item_id=$id&comment_s=0'; </script>";
 
 include "link.php";
 
 $sql = "select *,DATE_FORMAT(reviews.date,'%x/%c/%d %H:%i') as df from reviews where pid='$id' order by date asc";
-
+$page=(isset($_GET['page']))?$_GET['page']:0;
 $reviews = array();
 if($result = mysqli_query($link,$sql))
 {
     // echo "123123";
+    $c = 1;
+    $total_num = mysqli_num_rows($result); //查詢結果筆數
+    $total_page = ceil($total_num /10);
     while($row = mysqli_fetch_assoc($result))
-        $reviews[] = $row;
+    {
+        $reviews[$c] = $row;
+        $c++;
+    }
+        
     mysqli_free_result($result);
 }
 
-$user_have = false;
-if(isset($_SESSION['user_id']))
-{
-    $sql = "select * from buyed_book where account='$_SESSION[user_id]' and pid='$id'";
-    if($result = mysqli_query($link,$sql))
-    {
-        if($row = mysqli_fetch_assoc($result))
-            $user_have = true;
-        else
-            $user_have = false;
-        mysqli_free_result($result);
-    }
-}
+
 
 //查看庫存是否以空
 $now_stock = 0;
@@ -132,42 +129,81 @@ mysqli_close($link);
             });
         });
 
-        var top1 = 0;
+          
         $(document).ready(function(){
-            const $ScrollWrap = $("#scroll-wrap")
-            // 监听滚动停止
-            let t1 = 0;
-            let t2 = 0;
-            let timer = null; // 定時器
-            $(window).on("touchstart", function(){
-                // 觸控開始
-            })
-            $(window).on("scroll", function(){
-                // 滾動
-                clearTimeout(timer)
-                timer = setTimeout(isScrollEnd, 100)
-                t1 = $(this).scrollTop()
-            })
-            function isScrollEnd() {
-                t2 = $(window).scrollTop();
-                if(t2 == t1){
-                    if(t2>top1)
-                    {
-                        top1=t2;
-                        $("nav").slideUp();
-                    }
-                    else if(t2<top1)
-                    {
-                        top1=t2;
-                        $("nav").slideDown();
-                    }
-                    clearTimeout(timer)
+
+            var p=0,
+
+                t=0,
+
+                n=$("nav");
+
+            $(window).scroll(function(){
+
+                p=$(this).scrollTop();
+
+                if(t<p&&n.is(':visible')){
+                    n.stop().fadeOut(25);
+                    //下滾
                 }
-            }
-        })        
+                else if(t>p&&!n.is(':visible')){
+                    n.stop().show();
+                        //上滾            
+                }
+                t = p ;
+                // setTimeout(function(){ t = p ; },0)
+            })
+
+        });
+        
     </script>
     <style>
         img { height: 500px; background-color: white;}
+        @media screen and (max-width:10000px){
+            #mode1{
+                display: block;
+            }
+            #mode2{
+                display: none;
+            }
+            #mode3{
+                display: none;
+            }
+        }
+        @media screen and (max-width:991px){
+            #mode1{
+                display: none;
+            }
+            #mode2{
+                display: block;
+            }
+            #mode3{
+                display: block;
+            }
+        }
+        @media screen and (max-width:767px){
+            #mode1{
+                
+                display: block;
+            }
+            #mode2{
+                display: none;
+            }
+            #mode3{
+                display: none;
+            }
+        }
+        @media screen and (max-width:250px){
+            #mode1{
+                display: none;
+            }
+            #mode2{
+                display: block;
+            }
+            #mode3{
+                display: block;
+            }
+        }         
     </style>
 </head>
 
@@ -190,7 +226,7 @@ mysqli_close($link);
     <?php include "header.php"; ?>
     <div class="container">
         <div class="row">
-            <div class="col-lg-9">
+            <div class="col-lg-8">
                 <div class="card mt-4">
                     <img class="card-img-top img-fluser_id object-fit object-fit_scale-down"    src='<?php echo "images/p_".($id > 30 ? "30":$id).".jpg "; ?>' alt="no img">
                     <div class="card-body">
@@ -198,25 +234,18 @@ mysqli_close($link);
                             <?php echo $content[$id]['name']; ?>
                         </h3>
                         <h2>
-                           直購價: <?php echo  "<font color='red' style='bold'>$".$content[$id]['price']."</font>"; ?>
+                           直購價: <?php echo  "<font color='red' style='bold'>$".$content[$id]['price']."&emsp;</font>"; ?>
+                        評分:   
                         <span class="text-warning">
                             <?php
                             for($i = 0;$i < 5;$i++)
-                                echo $i < $content[$id]['star'] ? "&#9733; ":"&#9734; ";
+                                echo $i < ($content[$id]['star_count']==0?$content[$id]['star']:($content[$id]['star']/$content[$id]['star_count'])) ? "&#9733; ":"&#9734; ";
                             ?>
-                        </span>
-                        <?php echo $content[$id]['star']; ?> 顆星    
+                        </span> 
+                        <font size="3">(已有<?php echo $content[$id]['star_count']; ?>人評分)</font>
                         </h2>
+                        
                         <h4>
-                            
-                            <!-- <div class="input-group">
-                                數量:&ensp;
-                                <input type="button" name='bm' value='-'>
-                                <input type="text" name="num" id="num" value="1" size="5px" style="text-align:center">
-                                <input type="button" name='bp'value='+'>
-                                &emsp;庫存:
-                                <?php echo $content[$id]['stock']; ?> 
-                            </div> -->
                             <div class="row">
                                 <div class='input-group col-lg-4'>
                                     數量:&ensp;
@@ -224,10 +253,16 @@ mysqli_close($link);
                                     <input type='text' class='form-control' name="num" id="num" value="1" style='text-align:center'>
                                     <button class='btn btn-outline-secondary' name='bp' type='button'>+</button>
                                 </div>
-                                <div class='col-lg-6 offset-lg-1'>
-                                    庫存:&ensp;<?php echo $content[$id]['stock']; ?> 
-                                </div>
-                            </div>
+                            </div>    
+                        </h4>
+                        <div id='intro'>
+                        <h4>        
+                                <!-- <div class='col-lg-6 offset-lg-1'> -->
+                                    
+                                        庫存:&ensp;<?php echo $content[$id]['stock']; ?>
+                                    
+                                <!-- </div> -->
+                            
                         </h4> 
                         <h3>
                             <button class="btn btn-<?php echo ($now_stock==0) ? "secondary":"primary"; ?>" onClick="is_add(
@@ -247,6 +282,8 @@ mysqli_close($link);
                             ?>
                             </button>                            
                         </h3>
+                        <!-- intro尾div -->
+                        </div>
                         <p class="card-text">
                             <?php echo $content[$id]['summary']; ?>
                         </p>
@@ -265,21 +302,139 @@ mysqli_close($link);
                     <div class="card-header">
                         <font color="red" style="bold">書籍評論</font>
                     </div>
-                    <div class="card-body">
+                    <div id="card-body" class="card-body">
+                    <script>
+                        var commentarr =[];
+                        var page = 1;
+                    </script>
                         <?php 
-                        foreach ($reviews as $review) {
-                            echo "<p>$review[review]</p>
-                        <small class='text-muted'>張貼者:$review[account]<br>張貼時間:$review[df]</small>
-                        <hr>";
-                        }
+                            if(count($reviews)==0)
+                                echo'<h4>尚無評論</h4>';
+                            else{
+                                foreach ($reviews as $review) {
+                                    //     echo "<p>$review[review]</p>
+                                    // <small class='text-muted'>張貼者:$review[account]<br>張貼時間:$review[df]</small>
+                                    // <hr>";    
+                                        echo "<script>commentarr.push({review:'$review[review]',account:'$review[account]',df:'$review[df]'});</script>";
+                                }  
+                            }      
+                                // for($k=$page*10+1;$k<=$page*10+10 && $k<=$total_num;$k++)
+                                // {
+                                //     echo ;
+                                // }                      
+                            
+                            // for($i=1;$i<=$total_page;$i++)
+                            // {
+                            //     if($page==$i)
+                            //     {
+                            //         echo "$i&nbsp;&nbsp;";
+                            //     }else{
+                            //         echo "<a href='".$_SERVER['PHP_SELF']."?page=$i'> $i </a>&nbsp;&nbsp;";
+                            //     }
+                            // }
                         ?>
-                        <form action="" method="POST" id='form3' name='form3'>
+                        <script>
+                            var showcomment=function(){
+                                document.getElementById("card-body").innerHTML="";
+                                for(k=(page-1)*10;k<=(page-1)*10+9 && k<commentarr.length;k++)
+                                {
+                                    document.getElementById("card-body").innerHTML+="<p>"+commentarr[k]['review']+"</p><small class='text-muted'>張貼者:"+commentarr[k]['account']+"<br>張貼時間:"+commentarr[k]['df']+"</small><hr>"
+                                } 
+                            }
+
+                            showcomment();
+
+                            
+                        </script>
+                        <!-- <form action="" method="POST" id='form3' name='form3'>
                             <textarea class="form-control" name="review" id="review" rows="5" placeholder="在此輸入你的評論"></textarea><br>
                             <button class="btn btn-success" type="submit">留下評論</button>
-                        </form>
+                        </form> -->
                     </div>
+                    <div id="pageindex">
+                            
+                    </div>
+                    <script>
+                        for(i=1;i<(commentarr.length/10)+1;i++)
+                        {
+                            document.getElementById("pageindex").innerHTML+="<a href=javascript:(function(){page="+i+";showcomment();})();>"+i+"  "+"</a>";
+                        }
+                    </script>
                 </div>
             </div>
+            <?php
+                    echo '
+                    <div id="mode1" class="col-md-4">
+                        <div class="card mt-4">
+                            <div class="card-header text-center">
+                            👇你可能會喜歡 👇
+                            <a href="item.php?item_id='.$commend[$choo[0]]['pid'].' ">
+                            <img class="card-img-top img-fluser_id object-fit object-fit_scale-down" 
+                            src="images/'.$commend[$choo[0]]['file_name'].'">
+                            </a>
+                            </div>
+                            <div class="card-body text-center">
+                            <a href="item.php?item_id='.$commend[$choo[0]]['pid'].' ">
+                            '.$commend[$choo[0]]['name'].'
+                            </a>
+                            </div>
+                        </div>
+                        <div class="card mt-4">
+                            <div class="card-header text-center">
+                            👇你可能會喜歡 👇
+                            <a href="item.php?item_id='.$commend[$choo[1]]['pid'].' ">
+                            <img class="card-img-top img-fluser_id object-fit object-fit_scale-down" 
+                            src="images/'.$commend[$choo[1]]['file_name'].'">
+                            </a>
+                            </div>
+                            <div class="card-body text-center">
+                            <a href="item.php?item_id='.$commend[$choo[1]]['pid'].' ">
+                            '.$commend[$choo[1]]['name'].'
+                            </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    ';
+                    echo '
+                    <div id="mode2" class="col-md-6">
+                        <div class="card mt-4">
+                            <div class="card-header text-center">
+                            👇你可能會喜歡 👇
+                            <a href="item.php?item_id='.$commend[$choo[0]]['pid'].' ">
+                            <img class="card-img-top img-fluser_id object-fit object-fit_scale-down" 
+                            src="images/'.$commend[$choo[0]]['file_name'].'">
+                            </a>
+                            </div>
+                            <div class="card-body text-center">
+                            <a href="item.php?item_id='.$commend[$choo[0]]['pid'].' ">
+                            '.$commend[$choo[0]]['name'].'
+                            </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="mode3" class="col-md-6">
+                        <div class="card mt-4">
+                            <div class="card-header text-center">
+                            👇你可能會喜歡 👇
+                            <a href="item.php?item_id='.$commend[$choo[1]]['pid'].' ">
+                            <img class="card-img-top img-fluser_id object-fit object-fit_scale-down" 
+                            src="images/'.$commend[$choo[1]]['file_name'].'">
+                            </a>
+                            </div>
+                            <div class="card-body text-center">
+                            <a href="item.php?item_id='.$commend[$choo[1]]['pid'].' ">
+                            '.$commend[$choo[1]]['name'].'
+                            </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    ';
+                
+            ?>
+            
+                
         </div>
     </div>
     <?php include "footer.php"; ?>

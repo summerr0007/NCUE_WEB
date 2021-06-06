@@ -26,37 +26,98 @@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <link rel="stylesheet" href="css/style.css">
 <script> 
-        var top1 = 0;
+        // var top1 = 0;
+        // // var fileReader = new FileReader();       
+        
+        // $(document).ready(function(){
+        //     let t1 = 0;
+        //     let t2 = 0;
+        //     let timer = null; // 定時器
+            
+        //     $(window).on("touchstart", function(){
+        //         // 觸控開始
+        //     })
+        //     $(window).on("scroll", function(){
+        //         // 滾動
+        //         clearTimeout(timer)
+        //         timer = setTimeout(isScrollEnd, 100)
+        //         t1 = $(this).scrollTop()
+        //     })
+        //     function isScrollEnd() {
+        //         t2 = $(window).scrollTop();
+        //         if(t2 == t1){
+        //             if(t2>top1)
+        //             {
+        //                 top1=t2;
+        //                 $("nav").slideUp();
+        //             }
+        //             else if(t2<top1)
+        //             {
+        //                 top1=t2;
+        //                 $("nav").slideDown();
+        //             }
+        //             clearTimeout(timer)
+        //         }
+        //     }
+        // });
         $(document).ready(function(){
-            let t1 = 0;
-            let t2 = 0;
-            let timer = null; // 定時器
-            $(window).on("touchstart", function(){
-                // 觸控開始
-            })
-            $(window).on("scroll", function(){
-                // 滾動
-                clearTimeout(timer)
-                timer = setTimeout(isScrollEnd, 100)
-                t1 = $(this).scrollTop()
-            })
-            function isScrollEnd() {
-                t2 = $(window).scrollTop();
-                if(t2 == t1){
-                    if(t2>top1)
-                    {
-                        top1=t2;
-                        $("nav").slideUp();
-                    }
-                    else if(t2<top1)
-                    {
-                        top1=t2;
-                        $("nav").slideDown();
-                    }
-                    clearTimeout(timer)
+
+            var p=0,
+
+                t=0,
+
+                n=$("nav");
+
+            $(window).scroll(function(){
+
+                p=$(this).scrollTop();
+
+                if(t<p&&n.is(':visible')){
+                    n.stop().fadeOut(25);
+                    //下滾
                 }
-            }
+                else if(t>p&&!n.is(':visible')){
+                    n.stop().show();
+                        //上滾            
+                }
+                t = p ;
+                // setTimeout(function(){ t = p ; },0)
+            })
+
         })
+        $(function(){
+            var fileReader = new FileReader();
+            var fileUploader = document.getElementById("pic");
+            $("input:file").change(function(){
+                var fn = $(this).val();
+                fn=fn.replace("C:\\fakepath\\","");
+                if (this.files.length > 0) {               
+                    fileReader.readAsDataURL(this.files[0]);                                      
+                }else{
+                    alert("nnn");
+                }
+                $("#picn").val(fn);
+            })
+            fileReader.onload = function(){
+                $("#picfile").val(fileReader.result);
+            }  
+        });
+
+
+        // var fileText = document.getElementById("picfile");
+        // var fileUploader = document.getElementById("pic");
+        // fileUploader.addEventListener("change", function(event) {
+        //     fileText.value ="afaefaefaefaf";
+        //     if (this.files.length > 0) { 
+                        
+        //         fileReader.readAsText(this.files[0]);
+        //         fileReader.onload = function(){
+        //             // fileText.value = fileReader.result;
+        //         }
+        //     }else{
+        //         alert('no');
+        //     }
+        // }, false);
     </script>        
 <style>
     .error {
@@ -75,7 +136,7 @@
     <div class="row">
     <?php include "left_side_admin.php"; ?>
         <div class="col-lg-10 text-center">
-            <form class="form-horizontal form-inline" name="form_post" id="form_post" method="POST">
+            <form class="form-horizontal form-inline" name="form_post" id="form_post" method="POST" action="upload.php">
                 <input type="hidden" name="oper" id="oper" value="insert">
                 <input type="hidden" name="g_id_old" id="g_id_old" value="">
                 <div class="col-lg-12">
@@ -95,7 +156,9 @@
                                     <input type="text" id="ann" name="ann">
                                 </td>
                                 <td class="text-center">
-                                    <input type="file" id="pica" name="pic">
+                                        <input type="file" id="pic" name="pic">
+                                        <input type="text" id="picn" name="picn" value="">
+                                        <input type="text" id="picfile" name="picfile" value="">
                                 </td>
                                 <td class="text-center">
                                     <input type="text" id="ptitle" name="ptitle">

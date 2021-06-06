@@ -10,8 +10,10 @@ if ($oper == "query") {
       $a=array("data" => array());
       if ($result = mysqli_query($link, $sql)) {
             while ($row = mysqli_fetch_assoc($result)) {
-                  $a['data'][] = array($row["cid"],"<img src='images/".$row["pic"]."' height='10px' alt='no img'>",$row["ptitle"],$row["ptext"] , 
-                  "<button type='button' class='btn btn-warning btn-xs' id='btn_update'>修改</button> <button type='button' class='btn btn-danger btn-xs' id='btn_delete'>刪除</button>");
+                  
+                  $a['data'][] = array($row["cid"],"<img src='images/".$row['pic']." ' alt='no img'>",$row["ptitle"],$row["ptext"] , 
+                  "<button type='button' class='btn btn-warning btn-xs' id='btn_update'>修改</button> <button type='button' class='btn btn-danger btn-xs' id='btn_delete'>刪除</button>"
+                  ,$row['pic']);
             }
             mysqli_free_result($result); // 釋放佔用的記憶體
       }
@@ -27,7 +29,18 @@ if ($oper == "query") {
 // }
 
 if ($oper == "update") {
-      $sql = "update mycarousel set pic='".$_POST['pic']."',ptitle='$_POST[ptitle]',ptext='$_POST[ptext]' where cid = $_POST[g_id_old]";
+      if($_POST['picfile'])
+      {
+             $base64data = $_POST['picfile'];
+            list($type, $base64data) = explode(';', $base64data);
+            list(, $base64data)      = explode(',', $base64data);
+            $base64data = base64_decode($base64data);
+            file_put_contents('./images/'.$_POST['picn'], $base64data);
+            $sql = "update mycarousel set pic='$_POST[picn]', ptitle='$_POST[ptitle]',ptext='$_POST[ptext]' where cid = $_POST[g_id_old]";
+      }
+      else{
+            $sql = "update mycarousel set ptitle='$_POST[ptitle]',ptext='$_POST[ptext]' where cid = $_POST[g_id_old]";
+      }
 }
 
  if ($oper == "delete") {

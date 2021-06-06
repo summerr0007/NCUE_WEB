@@ -6,7 +6,7 @@ $arr_oper = array("insert" => "新增", "update" => "修改", "delete" => "刪�
 $oper = $_POST['oper'];
 
 if ($oper == "query") {
-      $sql = "select * from order_form";
+      $sql = "select * from order_form where time !=0";
       $a=array("data" => array());
       if ($result = mysqli_query($link, $sql)) {
             while ($row = mysqli_fetch_assoc($result)) {
