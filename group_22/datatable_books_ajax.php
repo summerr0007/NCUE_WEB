@@ -10,7 +10,7 @@ if ($oper == "query") {
       $a=array("data" => array());
       if ($result = mysqli_query($link, $sql)) {
             while ($row = mysqli_fetch_assoc($result)) {
-                  $a['data'][] = array($row["pid"],$row["name"],$row["author"],$row["publisher"],$row["date"],$row["price"],$row["summary"],$row["star"],$row["cate"],$row["stock"], "<button type='button' class='btn btn-warning btn-xs' id='btn_update'>修改</button> <button type='button' class='btn btn-danger btn-xs' id='btn_delete'>刪除</button>");
+                  $a['data'][] = array($row["pid"],$row["name"],$row["author"],$row["publisher"],$row["date"],$row["price"],$row["summary"],$row["star"],$row["cate"],$row["stock"],"<button type='button' class='btn btn-warning btn-xs' id='btn_update'>修改</button> <button type='button' class='btn btn-danger btn-xs' id='btn_delete'>刪除</button>",$row['file_name']);
             }
             mysqli_free_result($result); // 釋放佔用的記憶體
       }
@@ -21,14 +21,33 @@ if ($oper == "query") {
 }
 
 if ($oper == "insert") {
-      $sql = "insert into commodity (name,author,publisher,date,price,summary,star,cate,stock) values 
-      ('$_POST[name]','$_POST[author]','$_POST[publisher]','$_POST[date]',$_POST[price],'$_POST[summary]',$_POST[star],'$_POST[cate]','$_POST[stock]')";
+      $base64data = $_POST['picfile'];
+      list($type, $base64data) = explode(';', $base64data);
+      list(, $base64data)      = explode(',', $base64data);
+      $base64data = base64_decode($base64data);
+      file_put_contents('./images/'.$_POST['picn'], $base64data);
+      $sql = "insert into commodity (name,author,publisher,date,price,summary,star,cate,stock,file_name) values 
+      ('$_POST[name]','$_POST[author]','$_POST[publisher]','$_POST[date]',$_POST[price],'$_POST[summary]',$_POST[star],'$_POST[cate]','$_POST[stock]','$_POST[picn]')";
 }
 
 if ($oper == "update") {
-      $sql = "update commodity set name='$_POST[name]',author='$_POST[author]',publisher='$_POST[publisher]',
-      date=$_POST[date],price=$_POST[price],summary='$_POST[summary]',
-      star=$_POST[star],cate='$_POST[cate]',stock='$_POST[stock]' where pid = $_POST[g_id_old]";
+      if(!empty($_POST['picfile']))//這個是!empty
+      {
+            $base64data = $_POST['picfile'];
+            list($type, $base64data) = explode(';', $base64data);
+            list(, $base64data)      = explode(',', $base64data);
+            $base64data = base64_decode($base64data);
+            file_put_contents('./images/'.$_POST['picn'], $base64data);
+            $sql = "update commodity set name='$_POST[name]',author='$_POST[author]',publisher='$_POST[publisher]',
+            date=$_POST[date],price=$_POST[price],summary='$_POST[summary]',
+            star=$_POST[star],cate='$_POST[cate]',stock='$_POST[stock]',file_name='$_POST[picn]' where pid = $_POST[g_id_old]";
+      }
+      else{
+            $sql = "update commodity set name='$_POST[name]',author='$_POST[author]',publisher='$_POST[publisher]',
+            date=$_POST[date],price=$_POST[price],summary='$_POST[summary]',
+            star=$_POST[star],cate='$_POST[cate]',stock='$_POST[stock]' where pid = $_POST[g_id_old]";
+      }
+      
 }
 
 if ($oper == "delete") {

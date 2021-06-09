@@ -16,3 +16,18 @@
         </div>
     </div>
 </div>
+<?php
+    if(isset($unlogin)){
+        if($unlogin){
+            ;
+        }else{
+            echo "<script>";
+            echo "alert('你已登入');";
+            echo "window.location.href='" . THISURL . "';";
+            echo "</script>";
+        }
+    }else{
+        echo "missing unlogin token";
+        exit;
+    }
+?>

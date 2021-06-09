@@ -27,9 +27,9 @@ class ItemController extends Controller
 
     public function detail($id)
     {
-        $item = (new Item())->where(["id = ?"], [$id])->fetch();
+        $item = (new Item())->where(["ItemId = ?"], [$id])->fetch();
         
-        $this->assign('title', '条目详情');
+        $this->assign('id', $id);
         $this->assign('item', $item);
         $this->assign('thisurl',THISURL);
         $this->render();

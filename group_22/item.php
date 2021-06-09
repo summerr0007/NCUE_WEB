@@ -228,7 +228,7 @@ mysqli_close($link);
         <div class="row">
             <div class="col-lg-8">
                 <div class="card mt-4">
-                    <img class="card-img-top img-fluser_id object-fit object-fit_scale-down"    src='<?php echo "images/p_".($id > 30 ? "30":$id).".jpg "; ?>' alt="no img">
+                    <img class="card-img-top img-fluser_id object-fit object-fit_scale-down"    src='<?php echo "images/".$content[$id]['file_name'] ; ?>' alt="no img">
                     <div class="card-body">
                         <h3 class="card-title">
                             <?php echo $content[$id]['name']; ?>
@@ -339,26 +339,36 @@ mysqli_close($link);
                                 for(k=(page-1)*10;k<=(page-1)*10+9 && k<commentarr.length;k++)
                                 {
                                     document.getElementById("card-body").innerHTML+="<p>"+commentarr[k]['review']+"</p><small class='text-muted'>張貼者:"+commentarr[k]['account']+"<br>張貼時間:"+commentarr[k]['df']+"</small><hr>"
-                                } 
+                                }
+                                showpage(); 
                             }
 
-                            showcomment();
-
-                            
+                            if(commentarr.length!=0)
+                            {
+                                showcomment();
+                            }                          
                         </script>
                         <!-- <form action="" method="POST" id='form3' name='form3'>
                             <textarea class="form-control" name="review" id="review" rows="5" placeholder="在此輸入你的評論"></textarea><br>
                             <button class="btn btn-success" type="submit">留下評論</button>
                         </form> -->
                     </div>
-                    <div id="pageindex">
+                    <div id="pageindex" style="text-align:center">
                             
-                    </div>
+                    </div >
                     <script>
-                        for(i=1;i<(commentarr.length/10)+1;i++)
-                        {
-                            document.getElementById("pageindex").innerHTML+="<a href=javascript:(function(){page="+i+";showcomment();})();>"+i+"  "+"</a>";
+                        var showpage=function(){
+                            document.getElementById("pageindex").innerHTML = "";
+                            for(i=1;i<(commentarr.length/10)+1;i++)
+                            {
+                                if(i==page)
+                                    document.getElementById("pageindex").innerHTML+= i+"&nbsp;&nbsp;";
+                                else
+                                    document.getElementById("pageindex").innerHTML+="<a href=javascript:(function(){page="+i+";showcomment();})();>"+i+"&nbsp;&nbsp;"+"</a>";
+                            }
                         }
+                        if(commentarr.length!=0)
+                            showpage();
                     </script>
                 </div>
             </div>

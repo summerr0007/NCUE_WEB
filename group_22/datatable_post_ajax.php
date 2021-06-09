@@ -31,7 +31,7 @@ if ($oper == "query") {
 if ($oper == "update") {
       if($_POST['picfile'])
       {
-             $base64data = $_POST['picfile'];
+            $base64data = $_POST['picfile'];
             list($type, $base64data) = explode(';', $base64data);
             list(, $base64data)      = explode(',', $base64data);
             $base64data = base64_decode($base64data);

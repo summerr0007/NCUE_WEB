@@ -128,7 +128,8 @@ if($result = mysqli_query($link,$sql))
                     </div>
                 </td>
                 <td class='text-right'><button class='btn btn-sm btn-danger' onClick='is_remove(".$row['pid'].")'>X</button></td>
-                </tr>";     
+                </tr>"; 
+        if($row['apply_for_return']==0)            
         $sum += $row['price'] * $row['quantity'];
     }
     mysqli_free_result($result);

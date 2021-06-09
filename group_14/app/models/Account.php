@@ -10,15 +10,20 @@ class Account extends Model
 
     public function checkaccount($account,$password){
         $sth = $this->where(["account = :account"],[':account' => $account])->fetch();
+        $re = -1;
         if(!empty($sth)){
             if($password == $sth['password']){
-                return true;
+                //return true;
+                $re=$sth['MemberId'];
             }else{
-                return false;
+                //return false;
+                $re=-1;
             }
         }else{
-            return false;
+            //return false;
+            $re=-1;
         }        
+        return $re;
     }
 
     public function register($data){
@@ -29,4 +34,6 @@ class Account extends Model
             return false;
         }
     }
+
+
 }

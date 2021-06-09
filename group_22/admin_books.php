@@ -82,6 +82,25 @@
             })
 
         })
+//這是把圖轉成base64的function
+        $(function(){
+            var fileReader = new FileReader();
+            var fileUploader = document.getElementById("pic");
+            $("input:file").change(function(){
+                var fn = $(this).val();
+                fn=fn.replace("C:\\fakepath\\","");
+                if (this.files.length > 0) {               
+                    fileReader.readAsDataURL(this.files[0]);                                      
+                }else{
+                    alert("nnn");
+                }
+                $("#picn").val(fn);
+            })
+            fileReader.onload = function(){
+                $("#picfile").val(fileReader.result);
+            }  
+        });
+//有這個才會動        
     </script>        
 <style>
     .error {
@@ -135,7 +154,7 @@
                                 <th class="text-center">星數</th>
                                 <th class="text-center">書種分類</th>
                                 <th class="text-center">庫存</th>
-                                <th class="text-center">存檔/取消</th>
+                                <th class="text-center">商品圖片</th>
                             </tr>
                             <tr>
                                 <td class="text-center">
@@ -150,6 +169,16 @@
                                 <td class="text-center">
                                     <input type="text" id="stock" name="stock">
                                 </td>
+                                <td class="text-center">
+                                        <input type="file" id="pic" name="pic">
+                                        <input type="text" id="picn" name="picn" value="">
+                                        <input type="text" id="picfile" name="picfile" value="">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="text-center">存檔/取消</th>
+                            </tr>
+                            <tr>
                                 <td>
                                     <button type="submit" class="btn btn-primary btn-xs" id="btn-save">存檔</button><button type="reset" class="btn btn-danger btn-xs" id="btn-cancel">取消</button>
                                 </td>

@@ -31,6 +31,7 @@ $(function () {
       $('#star').val(data[7]);
       $('#cate').val(data[8]);
       $('#stock').val(data[9]);
+      $('#picn').val(data[11]);
       $("#g_id_old").val(data[0]);
       $("#oper").val("update");
    });
@@ -53,17 +54,16 @@ $(function () {
          confirmButtonColor: '#3085d6',
          confirmButtonText: '是',
          cancelButtonText: '否'
-   }).then((result) => {
+      }).then((result) => {
          if (result.isConfirmed) {
             $("#g_id_old").val(data[0]);
             $("#oper").val("delete"); //刪除
-            CRUD();             
+            CRUD();
          }
-         else
-         {
-               return false;
+         else {
+            return false;
          }
-   })       
+      })
 
 
    });

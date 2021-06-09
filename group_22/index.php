@@ -273,7 +273,7 @@ if(isset($_SESSION['key'])||isset($_SESSION['sort_search']))
                                     <div class="col-lg-4 col-md-6 mb-4 px-4">
                                     
                                         <div class="card"style="height: 100%;" >
-                                            <a href="item.php?item_id='.$value['pid'].'"><img class="card-img-top object-fit object-fit_scale-down"  src="images/p_'.($value['pid'] > 30 ? "30":$value['pid']).'.jpg" alt="no img"></a>
+                                            <a href="item.php?item_id='.$value['pid'].'"><img class="card-img-top object-fit object-fit_scale-down"  src="images/'.$value['file_name'].'" alt="no img"></a>
                                             <div class="card-body ">
                                                 <h4 class="card-title">
                                                     <a style="display : inline-block; text-overflow : ellipsis; overflow: hidden; white-space : nowrap; width : 100%;" href="item.php?item_id='.$value['pid'].'">'.$value['name'].'</a>
@@ -359,7 +359,7 @@ if(isset($_SESSION['key'])||isset($_SESSION['sort_search']))
                             echo '
                         <div class="col-lg-4 col-md-6 mb-4 px-4">
                             <div class="card" style="height: 100%;">
-                                <a href="item.php?item_id='.$value['pid'].'"><img class="card-img-top object-fit object-fit_scale-down" src="images/p_'.($value['pid'] > 30 ? "30":$value['pid']).'.jpg" alt="no img"></a>
+                                <a href="item.php?item_id='.$value['pid'].'"><img class="card-img-top object-fit object-fit_scale-down" src="images/'.$value['file_name'].' " alt="no img"></a>
                                 <div class="card-body">
                                     <h4 class="card-title">
                                         <a style="display : inline-block; text-overflow : ellipsis; overflow: hidden; white-space : nowrap; width : 100%;" href="item.php?item_id='.$value['pid'].'">'.$value['name'].'</a>
