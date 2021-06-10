@@ -72,6 +72,16 @@ class Sql
         return $sth->rowCount();
     }
 
+    public function deletewhere()
+    {
+        $sql = sprintf("delete from `%s` %s", $this->table, $this->filter);
+        $sth = Db::pdo()->prepare($sql);
+        $sth = $this->formatParam($sth, $this->param);
+        $sth->execute();
+
+        return $sth->rowCount();
+    }
+
     public function add($data)
     {
         $sql = sprintf("insert into `%s` %s", $this->table, $this->formatInsert($data));

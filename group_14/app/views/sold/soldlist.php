@@ -7,12 +7,8 @@
         // header("Location: ".THISURL."account/login/"); 
         exit;
     }
-    if(!empty($ok)){
-        echo "<script>";
-        echo "alert('$ok');";
-        echo "</script>";
-    }
 ?>
+
 <div class="container-xxl">
     <div class="row">
         <div class="col-2">
@@ -22,10 +18,10 @@
                         <a class="nav-link link-dark" style="background-color:gray;">個人資料管理</a>  
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" >修改密碼</a>  
+                        <a class="nav-link " href='<?php echo THISURL."account/edit"?>'>修改密碼</a>  
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link " href='<?php echo THISURL."sold/soldlist"?>'>訂單管理</a>  
+                        <a class="nav-link active">訂單管理</a>  
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo THISURL.'account/logout';?>">登出</a>  
@@ -34,19 +30,26 @@
             </aside>
         </div>
         <div class="col-8 ms-5">
-            <main>
-                <form method="post" action="">
-                    <div class="mb-3">
-                        <label for="account" class="form-label">新密碼</label>
-                        <input type="text" class="form-control" id="old" ></input>
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">再輸入一次</label>
-                        <input type="password" class="form-control" name="passwd"></input>
-                    </div>
-                    <input type="submit" class="btn btn-primary" value="修改"></input>
-                </form>
-            </main>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>品名</th>                        
+                        <th>授權</th>
+                        <th>立刻觀看</th>
+                    </tr>
+                </thead>
+                <tbody id="soldlist">
+                    <?php foreach($result as $key => $value):?>
+                        <tr>
+                            <td><?php echo $key+1;?></td>
+                            <td><?php echo $value['name'];?></td>
+                            <td>終生授權</td>
+                            <td><button type="button" class="btn btn-success btn-sm">立刻觀看</button></td>
+                        </tr>
+                    <?php endforeach ?>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

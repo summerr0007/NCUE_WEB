@@ -1,7 +1,5 @@
 <?php
 
-use function PHPSTORM_META\type;
-
 if (isset($unlogin) && $unlogin==true) {
     echo "<script>";
     echo "alert('請先登入');";
@@ -29,8 +27,9 @@ if (isset($unlogin) && $unlogin==true) {
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="4"></td>
+                    <td colspan="3"></td>
                     <td colspan="1"> <input id="checkout" type="button" class="btn btn-success btn-lg" value="結帳" data-bs-toggle="modal" data-bs-target="#check"> </td>
+                    <td colspan="1"> <input id="clean" type="button" class="btn btn-danger btn-lg" value="清空購物車" onclick="clean()"> </td>
                 </tr>
             </tfoot>
         </table>
@@ -49,7 +48,7 @@ if (isset($unlogin) && $unlogin==true) {
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-        <button type="button" class="btn btn-primary" onclick="location.href='<?php echo THISURL;?>'">確定</button>
+        <button type="button" class="btn btn-primary" onclick="location.href='<?php echo THISURL."sold/checkup" ;?>'">確定</button>
       </div>
     </div>
   </div>
@@ -69,7 +68,7 @@ if (isset($unlogin) && $unlogin==true) {
                 <td>${element['name']}</td>
                 <td>22.22</td>
                 <td>終生授權</td>
-                <td><button type="button" class="btn btn-danger" onclick="remove(${element['ShopcarID']})">刪除</button></td>
+                <td><button type="button" class="btn btn-danger" onclick="remove(${element['ShopcarId']})">刪除</button></td>
             </tr>
             `;
         }
@@ -91,6 +90,32 @@ if (isset($unlogin) && $unlogin==true) {
         $.ajax({
             type: 'POST',
             url: `<?php echo THISURL; ?>shopcar/remove/${ShopcarID}`,
+            datatype: "json",
+            async: true,
+            success: function(data) {
+                  
+                if(data!=""){
+                    console.log(typeof(data));                   
+                    data = data.slice(0, -2); 
+                    console.log(data); 
+                    let tarr = data.split(',,');
+                    let map1 = tarr.map(x => JSON.parse(x));
+                    showbody(map1);
+                }else{
+                    showbody(null);
+                }
+                alert("成功刪除");                
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert(jqXHR);
+            }
+        });
+    }
+
+    var clean = function(ShopcarID) {
+        $.ajax({
+            type: 'POST',
+            url: `<?php echo THISURL; ?>shopcar/clean/`,
             datatype: "json",
             async: true,
             success: function(data) {

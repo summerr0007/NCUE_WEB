@@ -6,14 +6,14 @@ use mvcphp\db\Db;
 
 class Shopcar extends Model
 {
-    protected $primary = 'ShopcarID';
+    protected $primary = 'ShopcarId';
     protected $table = 'shopcar';
 
-    public function search($keyword)
+    public function search($MemberId)
     {
-        $sql = "select shopcar.ShopcarID,item.name from shopcar inner join item on shopcar.ItemID  = item.ItemId where (select MemberId from member where account = :keyword)";
+        $sql = "select shopcar.ShopcarId,item.name from shopcar inner join item on shopcar.ItemId  = item.ItemId where MemberId = :MemberId";
         $sth = Db::pdo()->prepare($sql);
-        $sth = $this->formatParam($sth, [':keyword' => "$keyword"]);
+        $sth = $this->formatParam($sth, [':MemberId' => $MemberId]);
         $sth->execute();
         return $sth->fetchAll();
     }

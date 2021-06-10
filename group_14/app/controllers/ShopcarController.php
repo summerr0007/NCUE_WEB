@@ -13,8 +13,8 @@ class ShopcarController extends Controller
     {
 
         if (!empty($_SESSION['login'])) {
-            $account = $_SESSION['login'];
-            $itemsInCar = (new Shopcar())->search($account);
+            $loginid = $_SESSION['loginid'];
+            $itemsInCar = (new Shopcar())->search($loginid);
             $this->assign("itemsInCar", json_encode($itemsInCar));
         } else {
             $this->assign("unlogin", true);
@@ -24,10 +24,10 @@ class ShopcarController extends Controller
 
     public function remove($shopcarid)
     {
-        $account = $_SESSION['login'];
+        $loginid = $_SESSION['loginid'];
         $o = new Shopcar();
         $o->delete($shopcarid);
-        $e = $o->search($account);
+        $e = $o->search($loginid);
         foreach ($e as $ex) {
             echo json_encode($ex) . ",,";
         }
@@ -50,5 +50,17 @@ class ShopcarController extends Controller
         }
 
         echo $oktext;
+    }
+
+    public function clean()
+    {
+        $account = $_SESSION['login'];
+        $loginid = $_SESSION['loginid'];
+        $o = new Shopcar();
+        $o->where(["MemberId = :MemberId"],['MemberId' => $loginid])->deletewhere();
+        $e = $o->search($account);
+        foreach ($e as $ex) {
+            echo json_encode($ex) . ",,";
+        }
     }
 }
