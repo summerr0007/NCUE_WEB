@@ -35,18 +35,30 @@
         </div>
         <div class="col-8 ms-5">
             <main>
-                <form method="post" action="">
+                <form method="post" action="" id="edit">
                     <div class="mb-3">
                         <label for="account" class="form-label">新密碼</label>
                         <input type="text" class="form-control" id="old" ></input>
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">再輸入一次</label>
-                        <input type="password" class="form-control" name="passwd"></input>
+                        <input type="password" class="form-control" name="passwd" id="passwd"></input>
                     </div>
-                    <input type="submit" class="btn btn-primary" value="修改"></input>
+                    <input type="button" class="btn btn-primary" value="修改" onclick="edit()"></input>
                 </form>
             </main>
         </div>
     </div>
 </div>
+
+<script>
+    var edit = function(){
+        if($('#old').val() != $("#passwd").val()){
+            alert("密碼不一致");
+            $('#old').val('');
+            $("#passwd").val('');
+        }else{
+            document.getElementById('edit').submit();
+        }
+    }
+</script>

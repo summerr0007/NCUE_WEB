@@ -7,6 +7,7 @@ use mvcphp\db\Db;
 class Account extends Model
 {
     protected $table = 'member';
+    protected $primary = 'MemberId';
 
     public function checkaccount($account,$password){
         $sth = $this->where(["account = :account"],[':account' => $account])->fetch();

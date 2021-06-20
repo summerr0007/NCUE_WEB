@@ -83,4 +83,26 @@ class AccountController extends Controller
     public function index(){
         $this -> render(); 
     }
+
+    public function admin(){
+        $items = (new Account)->where()->fetchAll();
+        $this->assign('items', $items);
+        $this -> render(); 
+    }
+
+    public function delacc($id){
+        $o = (new Account())->delete($id);
+        $this->assign("result",$o);
+        $this->render(); 
+    }
+
+    public function addacc(){
+        $account = isset($_POST['account']) ? $_POST['account'] : '';
+        $password = isset($_POST['password']) ? $_POST['password'] : '';
+        $data['account'] = $account;
+        $data['password'] = $password;
+        $sth = (new Account)->register($data);
+        $this->assign("result",$sth);
+        $this->render(); 
+    }
 }

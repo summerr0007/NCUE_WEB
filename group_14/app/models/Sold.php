@@ -33,4 +33,5 @@ class Sold extends Model
         $sth->execute();
         return $sth->rowCount();
     }
+    
 } 

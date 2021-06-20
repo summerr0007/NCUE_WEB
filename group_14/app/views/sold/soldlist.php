@@ -9,6 +9,13 @@
     }
 ?>
 
+<script>
+    var watch = function(){
+        alert("沒有電影但有Rick");
+        location.href = "https://youtu.be/dQw4w9WgXcQ";
+    }
+</script>
+
 <div class="container-xxl">
     <div class="row">
         <div class="col-2">
@@ -45,7 +52,7 @@
                             <td><?php echo $key+1;?></td>
                             <td><?php echo $value['name'];?></td>
                             <td>終生授權</td>
-                            <td><button type="button" class="btn btn-success btn-sm">立刻觀看</button></td>
+                            <td><button type="button" class="btn btn-success btn-sm" onclick="watch()">立刻觀看</button></td>
                         </tr>
                     <?php endforeach ?>
                 </tbody>

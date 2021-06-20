@@ -10,7 +10,7 @@
                     <label for="password" class="form-label">Password</label>
                     <input type="password" class="form-control" name="password"></input>
                 </div>
-                <input type="submit" class="btn btn-primary"></input>
+                <input type="submit" class="btn btn-primary" value="登入"></input>
             </form>
             <p><?php echo $error ?></p>
         </div>

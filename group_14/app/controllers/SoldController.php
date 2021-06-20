@@ -24,4 +24,14 @@ class SoldController extends Controller{
         $re = (new Sold())->checkup($loginid);
         $this->render();
     }
+
+    public function watchnow($ItemId){
+        $loginid = $_SESSION['loginid'];
+        $re =-1 ;
+        if($loginid > 0){
+            $re = (new Sold())->search($ItemId,$loginid);
+            $re = empty($re)? 0:1;
+        }
+        echo $re;
+    }
 }

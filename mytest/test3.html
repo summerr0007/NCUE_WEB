@@ -1,0 +1,28 @@
+<script>
+window.addEventListener("blur", function (e) {
+			// if (focusFlag) return;
+			// focusFlag = true;
+
+			// detect_spot = setTimeout(function () {
+			// 	window.focus();
+			// 	if (hasSwitched) {
+			// 		free_winlock();
+			// 		// examOver();
+			// 		// �אּ���������Ϊ�function by Small 2012/02/03
+			// 		examChgWinOver();
+			// 		return;
+			// 	}
+			// 	alert_warning_window();
+			// 	focusFlag = false;
+			// 	hasSwitched = true;
+			// }, 500);
+            document.getElementById("aaa").innerHTML = "outoito";
+		}, false);
+window.addEventListener("focus", function (e) {
+    // focusFlag = false;
+    document.getElementById("aaa").innerHTML = "inininin";
+    // free_winlock();
+}, false);
+</script>
+
+<p id="aaa">hihihih</p>

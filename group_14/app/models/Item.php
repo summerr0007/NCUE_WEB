@@ -10,6 +10,7 @@ use mvcphp\db\Db;
 class Item extends Model
 {
     protected $table = 'item';
+    protected $primary = 'ItemId';
     
     public function search($keyword)
     {
@@ -19,5 +20,16 @@ class Item extends Model
         $sth->execute();
 
         return $sth->fetchAll();
+    }
+
+    
+
+    public function addpic($filetemp,$uploadfile){
+        if(move_uploaded_file($filetemp, getcwd().$uploadfile)){
+            return true;
+        }else{
+            print_r($_FILES);
+            return false;
+        }
     }
 }
