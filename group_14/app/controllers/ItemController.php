@@ -15,7 +15,9 @@ class ItemController extends Controller
         } else {
             $items = (new Item)->where()->fetchAll();
         }
-
+        if(!isset($_SESSION['loginid'])){
+            $_SESSION['loginid']="";
+        }
         
         $this->assign('title', '全部商品');
         $this->assign('keyword', $keyword);
